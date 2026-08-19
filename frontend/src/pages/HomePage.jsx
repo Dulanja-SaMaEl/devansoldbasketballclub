@@ -40,52 +40,62 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    // Check reduced motion setting
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let ctx = gsap.context(() => {
-      // 1. HERO PINNED PARALLAX & COURT MATERIALIZATION
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: '+=100%',
-          scrub: 1,
+      // 1. HERO PINNED TEXT MORPH & COURT MATERIALIZATION
+      if (heroRef.current) {
+        const heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top top',
+            end: '+=180%',
+            pin: true,
+            scrub: 1,
+          }
+        });
+
+        // Basketball Guide movement
+        if (ballGuideRef.current) {
+          heroTl.to(ballGuideRef.current, {
+            y: 260,
+            scale: 1.4,
+            rotate: 360,
+            ease: 'none'
+          }, 0);
         }
-      });
 
-      // Basketball Guide movement
-      if (ballGuideRef.current) {
-        heroTl.to(ballGuideRef.current, {
-          y: 200,
-          scale: 1.2,
-          rotate: 360,
-          ease: 'none'
-        }, 0);
-      }
+        // SVG Court Lines Draw
+        if (courtLineRef.current) {
+          heroTl.to(courtLineRef.current, {
+            strokeDashoffset: 0,
+            opacity: 0.8,
+            ease: 'none'
+          }, 0);
+        }
 
-      // SVG Court Lines Draw
-      if (courtLineRef.current) {
-        heroTl.to(courtLineRef.current, {
-          strokeDashoffset: 0,
-          opacity: 0.8,
-          ease: 'none'
-        }, 0);
+        // Typography Morph Sequence
+        heroTl.to('.hero-text-stage-1', { opacity: 0, y: -40 }, 0.2)
+              .to('.hero-text-stage-2', { opacity: 1, y: 0 }, 0.4)
+              .to('.hero-text-stage-2', { opacity: 0, y: -40 }, 0.8)
+              .to('.hero-text-stage-3', { opacity: 1, y: 0 }, 1.0);
       }
 
       // 2. HORIZONTAL GENERATIONS SCROLL (PINNED)
       if (horizontalGenContainerRef.current && horizontalGenRef.current) {
         const totalWidth = horizontalGenRef.current.scrollWidth - window.innerWidth;
-        gsap.to(horizontalGenRef.current, {
-          x: -totalWidth,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: horizontalGenContainerRef.current,
-            pin: true,
-            scrub: 1,
-            end: () => `+=${totalWidth}`
-          }
-        });
+        if (totalWidth > 0) {
+          gsap.to(horizontalGenRef.current, {
+            x: -totalWidth,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: horizontalGenContainerRef.current,
+              pin: true,
+              scrub: 1,
+              end: () => `+=${totalWidth}`
+            }
+          });
+        }
       }
 
       // 3. NEWSPAPER ARCHIVE TRANSITION
@@ -117,7 +127,7 @@ export default function HomePage() {
       {/* ---------------------------------------------------- */}
       <section
         ref={heroRef}
-        className="relative min-h-[90vh] flex items-center justify-center bg-devan-dark overflow-hidden border-b border-devan-gold/20 py-20"
+        className="relative h-screen flex items-center justify-center bg-devan-dark overflow-hidden border-b border-devan-gold/20"
       >
         {/* Archival Court Texture Overlay */}
         <div className="absolute inset-0 z-0">
@@ -130,12 +140,13 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-paper-grain opacity-20 pointer-events-none" />
         </div>
 
-        {/* SVG Basketball Court Lines */}
+        {/* SVG Basketball Court Lines (Animated on Scroll) */}
         <svg
           className="absolute inset-0 w-full h-full z-10 pointer-events-none opacity-40"
           viewBox="0 0 1000 600"
           preserveAspectRatio="none"
         >
+          {/* Half Court Key & Boundary */}
           <rect
             ref={courtLineRef}
             x="200"
@@ -153,205 +164,202 @@ export default function HomePage() {
           <path d="M 800,180 A 160,160 0 0,1 800,420" fill="none" stroke="#D4AF37" strokeWidth="2" />
         </svg>
 
-        {/* Basketball Visual Guide Icon */}
+        {/* The Basketball Visual Guide */}
         <div
           ref={ballGuideRef}
-          className="absolute top-12 right-12 z-30 w-14 h-14 rounded-full bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-devan-gold shadow-gold-glow flex items-center justify-center opacity-80 pointer-events-none"
+          className="absolute top-1/4 z-30 w-16 h-16 rounded-full bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-devan-gold shadow-gold-glow flex items-center justify-center pointer-events-none"
         >
           <div className="w-full h-px bg-black/70 absolute rotate-45" />
           <div className="w-full h-px bg-black/70 absolute -rotate-45" />
-          <div className="w-9 h-9 border border-black/70 rounded-full absolute" />
+          <div className="w-10 h-10 border border-black/70 rounded-full absolute" />
         </div>
 
-        {/* Hero Header Composition (Non-Collapsing Flow Layout) */}
-        <div ref={heroTextRef} className="relative z-20 max-w-5xl mx-auto px-4 text-center space-y-8 flex flex-col items-center">
+        {/* Hero Choreographed Typography Stages */}
+        <div ref={heroTextRef} className="relative z-20 max-w-5xl mx-auto px-4 text-center space-y-6 flex flex-col items-center">
           
-          <div className="inline-flex items-center space-x-3 bg-devan-maroon/80 border border-devan-gold/60 px-5 py-2 rounded-full text-devan-gold shadow-gold-glow backdrop-blur-md">
+          <div className="inline-flex items-center space-x-3 bg-devan-maroon/70 border border-devan-gold/60 px-4 py-1.5 rounded-full text-devan-gold shadow-lg backdrop-blur-md">
             <Shield className="w-4 h-4 text-devan-gold" />
             <span className="text-xs tracking-widest font-display font-semibold uppercase">
               Maliyadeva College • Kurunegala
             </span>
           </div>
 
-          <div className="space-y-4">
-            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-devan-paper uppercase tracking-wider leading-tight drop-shadow-2xl">
-              {settings?.hero_title || 'DEVANS OLD BASKETBALL CLUB'}
-            </h1>
-            <p className="font-serif text-devan-gold text-base sm:text-xl italic max-w-3xl mx-auto leading-relaxed">
-              "{settings?.hero_subtitle || 'The Living Digital Legacy of Basketball at Maliyadeva College'}"
-            </p>
-          </div>
+          {/* Dedicated Text Morph Box (No Pill Badge Overlap) */}
+          <div className="relative min-h-[160px] w-full flex items-center justify-center">
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/history"
-              className="px-6 py-3 bg-devan-maroon border border-devan-gold text-devan-gold font-bold text-xs uppercase tracking-widest rounded-full shadow-gold-glow hover:bg-devan-maroon-dark hover:scale-105 transition-all flex items-center space-x-2"
-            >
-              <HistoryIcon className="w-4 h-4" />
-              <span>Explore Historical Archive</span>
-            </Link>
+            {/* Stage 1 Text */}
+            <div className="hero-text-stage-1 space-y-3 w-full">
+              <h1 className="font-display text-5xl sm:text-7xl font-extrabold tracking-tight text-devan-paper uppercase leading-none">
+                THE GAME
+              </h1>
+              <p className="font-serif text-lg text-devan-gold italic">
+                Scroll down to discover the legacy...
+              </p>
+            </div>
 
-            <Link
-              to="/achievements"
-              className="px-6 py-3 bg-stone-900/90 border border-stone-700 text-stone-200 font-bold text-xs uppercase tracking-widest rounded-full hover:border-devan-gold hover:text-devan-gold transition-all flex items-center space-x-2"
-            >
-              <Award className="w-4 h-4 text-devan-gold" />
-              <span>Trophy Cabinet</span>
-            </Link>
+            {/* Stage 2 Text (Initially hidden, revealed on scroll) */}
+            <div className="hero-text-stage-2 absolute inset-0 opacity-0 translate-y-10 flex flex-col items-center justify-center space-y-3 pointer-events-none">
+              <h2 className="font-display text-4xl sm:text-6xl font-extrabold text-stone-300 uppercase tracking-widest">
+                BECOMES A LEGACY
+              </h2>
+              <p className="font-serif text-base text-stone-400 italic">
+                "Through five decades of championship honors."
+              </p>
+            </div>
+
+            {/* Stage 3 Text (Final Hero Target Title) */}
+            <div className="hero-text-stage-3 absolute inset-0 opacity-0 translate-y-10 flex flex-col items-center justify-center space-y-3 pointer-events-none">
+              <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-devan-paper uppercase tracking-wider leading-tight drop-shadow-2xl">
+                {settings?.hero_title || 'DEVANS OLD BASKETBALL CLUB'}
+              </h1>
+              <p className="font-serif text-stone-300 text-sm sm:text-xl italic max-w-2xl mx-auto">
+                "{settings?.hero_subtitle || 'The Living Digital Legacy of Basketball at Maliyadeva College'}"
+              </p>
+            </div>
+
           </div>
 
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center space-y-1 text-devan-gold/80 animate-bounce">
-          <span className="text-[10px] uppercase font-display tracking-widest">Scroll To Explore</span>
-          <ChevronDown className="w-4 h-4 text-devan-gold" />
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center space-y-2 text-devan-gold/80 animate-bounce">
+          <span className="text-[10px] uppercase font-display tracking-widest">Scroll To Enter</span>
+          <ChevronDown className="w-5 h-5 text-devan-gold" />
         </div>
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* CHAPTER 2: THE COURT MARKINGS TIMELINE */}
+      {/* CHAPTER 2: HISTORICAL TIMELINE STREAM */}
       {/* ---------------------------------------------------- */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-16">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
         <div className="text-center space-y-4">
-          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 01 • ORIGIN & RISE</span>
+          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 01 • MILESTONES</span>
           <h2 className="font-display text-4xl font-extrabold text-devan-paper uppercase tracking-wider">
-            Walk Through Time
+            Key Archival Milestones
           </h2>
-          <p className="font-serif text-stone-400 max-w-xl mx-auto text-sm italic">
-            Travelling across court markings through five decades of Maliyadeva basketball history.
-          </p>
         </div>
 
-        {/* Court Axis Timeline */}
-        <div className="relative border-l-2 border-devan-gold/50 ml-4 sm:ml-36 space-y-16 pl-6 sm:pl-12">
-          {timeline.map((item, index) => (
-            <div
-              key={item.id}
-              data-cursor="VIEW MOMENT"
-              className="relative group transition-all duration-500"
-            >
-              {/* Basketball Pin Marker */}
-              <div className="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-gold-glow group-hover:scale-125 transition-transform z-10">
-                <span className="text-[10px] font-mono text-devan-gold font-bold">{index + 1}</span>
+        <div className="relative border-l-2 border-devan-gold/40 ml-4 sm:ml-36 space-y-12 pl-6 sm:pl-10">
+          {timeline.slice(0, 4).map((item, index) => (
+            <div key={item.id} className="relative group">
+              <div className="absolute -left-[13px] top-0 w-6 h-6 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform z-10">
+                <div className="w-2 h-2 rounded-full bg-devan-gold" />
               </div>
 
-              {/* Year Label */}
-              <div className="hidden sm:block absolute top-0 right-[calc(100%+24px)] font-display text-2xl font-extrabold text-devan-gold text-right whitespace-nowrap">
+              <div className="hidden sm:block absolute top-0 right-[calc(100%+20px)] font-display text-xl font-extrabold text-devan-gold text-right whitespace-nowrap">
                 {item.year}
               </div>
 
-              {/* Content Card with Archival Depth */}
-              <div className="bg-devan-dark-card border border-devan-gold/30 rounded-xl p-8 space-y-4 shadow-archival hover:border-devan-gold transition-all duration-300 transform group-hover:-translate-y-1">
+              <div className="bg-devan-dark-card border border-devan-gold/30 rounded-lg p-6 space-y-4 shadow-archival hover:border-devan-gold transition-all">
                 <div className="flex items-center justify-between">
-                  <span className="sm:hidden font-display text-2xl font-bold text-devan-gold">{item.year}</span>
+                  <span className="sm:hidden font-display text-xl font-bold text-devan-gold">{item.year}</span>
                   <span className="archive-stamp text-[9px] text-devan-gold">{item.category || 'Milestone'}</span>
                 </div>
-
-                <h3 className="font-serif text-2xl font-bold text-devan-paper">
-                  {item.title}
-                </h3>
-
-                <p className="font-serif text-sm text-stone-300 leading-relaxed">
-                  {item.description}
-                </p>
-
-                {item.key_figures && (
-                  <div className="pt-4 border-t border-stone-800 text-xs text-stone-400 font-serif">
-                    Key Stalwarts: <strong className="text-devan-gold">{item.key_figures}</strong>
-                  </div>
-                )}
+                <h3 className="font-serif text-xl font-bold text-devan-paper">{item.title}</h3>
+                <p className="font-serif text-sm text-stone-300 leading-relaxed">{item.description}</p>
               </div>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* ---------------------------------------------------- */}
-      {/* CHAPTER 3: THE SPOTLIGHT TROPHY ROOM */}
-      {/* ---------------------------------------------------- */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-16 py-12 bg-devan-dark-card/50 border-y border-devan-gold/20 relative">
-        <div className="text-center space-y-4">
-          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 02 • CHAMPIONS</span>
-          <h2 className="font-display text-4xl font-extrabold text-devan-paper uppercase tracking-wider">
-            The Trophy Cabinet Spotlight
-          </h2>
-          <p className="font-serif text-stone-400 max-w-xl mx-auto text-sm italic">
-            Championship shields and island-wide titles emerging from darkness under cabinet spotlights.
-          </p>
+        <div className="text-center pt-4">
+          <Link
+            to="/history"
+            className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest font-bold text-devan-gold hover:underline"
+          >
+            <span>View Full Timeline Archive</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
         </div>
-
-        <TrophyCabinet achievements={achievements} />
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* CHAPTER 4: WALL OF LEGENDS (3D DEPTH ROSTER) */}
+      {/* CHAPTER 3: INTERACTIVE 3D WALL OF LEGENDS */}
       {/* ---------------------------------------------------- */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
         <div className="text-center space-y-4">
-          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 03 • LEGENDS</span>
+          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 02 • HALL OF FAME</span>
           <h2 className="font-display text-4xl font-extrabold text-devan-paper uppercase tracking-wider">
             Wall of Legends
           </h2>
           <p className="font-serif text-stone-400 max-w-xl mx-auto text-sm italic">
-            Meeting the captains, coaches, and point guards who defined Devans basketball excellence.
+            Honoring captains, coaches, and pioneering players who shaped Maliyadeva basketball history.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {legends.map((leg, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {legends.slice(0, 4).map((leg) => (
             <div
               key={leg.id}
-              data-cursor="MEET LEGEND"
-              className={`bg-devan-dark-card border border-devan-gold/40 rounded-xl p-8 flex flex-col sm:flex-row gap-8 items-start shadow-archival hover:border-devan-gold transition-all duration-500 transform ${
-                idx % 2 === 1 ? 'sm:translate-y-6' : ''
-              }`}
+              data-cursor="LEGEND PROFILE"
+              className="group bg-devan-dark-card border border-devan-gold/30 rounded-xl p-6 space-y-6 shadow-archival hover:border-devan-gold hover:-translate-y-2 transition-all duration-500"
             >
-              {/* Yearbook Profile Frame */}
-              <div className="w-36 h-48 shrink-0 rounded overflow-hidden border-2 border-devan-gold/60 relative shadow-2xl mx-auto sm:mx-0">
+              <div className="aspect-[4/5] rounded-lg overflow-hidden border border-stone-800 relative">
                 <img
-                  src={leg.profile_image_url || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80"}
+                  src={leg.photo_url || "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80"}
                   alt={leg.name}
-                  className="w-full h-full object-cover vintage-photo"
+                  className="w-full h-full object-cover vintage-photo group-hover:scale-105 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <span className="absolute bottom-3 left-3 archive-stamp text-[8px] text-devan-gold">
+                  {leg.era || 'LEGEND'}
+                </span>
               </div>
 
-              <div className="space-y-4 flex-1">
-                <div>
-                  <span className="archive-stamp text-[9px] text-devan-gold block w-max">
-                    {leg.role} • {leg.years_active}
-                  </span>
-                  <h3 className="font-serif text-2xl font-bold text-devan-paper mt-2">
-                    {leg.name}
-                  </h3>
-                  {leg.nickname && (
-                    <span className="text-xs text-devan-gold font-serif italic block">
-                      Known as {leg.nickname}
-                    </span>
-                  )}
-                </div>
-
-                <p className="font-serif text-xs text-stone-300 leading-relaxed">
-                  {leg.bio}
-                </p>
-
-                {leg.quote && (
-                  <blockquote className="font-serif text-xs text-stone-400 italic border-l-2 border-devan-maroon pl-3 py-1 bg-stone-900/50 rounded-r">
-                    "{leg.quote}"
-                  </blockquote>
+              <div className="space-y-2">
+                <h3 className="font-serif text-lg font-bold text-devan-paper group-hover:text-devan-gold transition-colors">
+                  {leg.name}
+                </h3>
+                {leg.nickname && (
+                  <p className="font-serif text-xs text-devan-gold italic">"{leg.nickname}"</p>
                 )}
+                <p className="font-serif text-xs text-stone-400 line-clamp-2">{leg.bio}</p>
               </div>
             </div>
           ))}
         </div>
+
+        <div className="text-center">
+          <Link
+            to="/legends"
+            className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest font-bold text-devan-gold hover:underline"
+          >
+            <span>Explore All Legends</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
       </section>
 
       {/* ---------------------------------------------------- */}
-      {/* CHAPTER 5: NEWSPAPER ARCHIVE TRANSITION ("WOW MOMENT") */}
+      {/* CHAPTER 4: TROPHY CABINET SPOTLIGHT */}
+      {/* ---------------------------------------------------- */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        <div className="text-center space-y-4">
+          <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 03 • CHAMPIONSHIPS</span>
+          <h2 className="font-display text-4xl font-extrabold text-devan-paper uppercase tracking-wider">
+            Trophy Cabinet & Honors
+          </h2>
+        </div>
+
+        <TrophyCabinet achievements={achievements.slice(0, 3)} />
+
+        <div className="text-center">
+          <Link
+            to="/achievements"
+            className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest font-bold text-devan-gold hover:underline"
+          >
+            <span>View Complete Trophy Exhibition</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------- */}
+      {/* CHAPTER 5: NEWSPAPER ARCHIVE EDITION */}
       {/* ---------------------------------------------------- */}
       <section
         ref={newspaperRef}
-        className="max-w-5xl mx-auto px-4 sm:px-6 my-20 transition-all duration-700"
+        className="max-w-4xl mx-auto px-4 sm:px-6 transition-all duration-700"
       >
         <div className="paper-card rounded-xl p-8 sm:p-14 space-y-8 relative overflow-hidden border-2 border-amber-900/30">
           <div className="archive-stamp text-[10px] text-amber-900 border-amber-900/40">

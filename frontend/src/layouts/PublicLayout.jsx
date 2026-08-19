@@ -23,6 +23,7 @@ export default function PublicLayout() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.set('body', { clearProps: 'all' });
     ScrollTrigger.refresh();
   }, [location.pathname]);
 
@@ -43,11 +44,9 @@ export default function PublicLayout() {
       {/* Navigation Bar */}
       <Navbar settings={settings} />
 
-      {/* Main Content View with Smooth Page Transition */}
+      {/* Main Content View */}
       <main className="flex-grow pt-20">
-        <PageTransition>
-          <Outlet context={{ settings, openMemoryModal: () => setMemoryModalOpen(true) }} />
-        </PageTransition>
+        <Outlet context={{ settings, openMemoryModal: () => setMemoryModalOpen(true) }} />
       </main>
 
       {/* Memory Submission Quick Action Floating Button */}
