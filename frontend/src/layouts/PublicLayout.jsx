@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MemoryModal from '../components/MemoryModal';
@@ -7,10 +7,22 @@ import CustomCursor from '../components/CustomCursor';
 import ScrollProgressTrack from '../components/ScrollProgressTrack';
 import { api } from '../services/api';
 import { PlusCircle } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function PublicLayout() {
+  const location = useLocation();
   const [settings, setSettings] = useState(null);
   const [memoryModalOpen, setMemoryModalOpen] = useState(false);
+
+  // Automatically scroll to top and reset GSAP state on route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    ScrollTrigger.refresh();
+  }, [location.pathname]);
 
   useEffect(() => {
     api.getSettings().then((res) => {

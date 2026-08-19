@@ -44,37 +44,34 @@ export default function HomePage() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let ctx = gsap.context(() => {
-      // 1. HERO PINNED TEXT MORPH & COURT MATERIALIZATION
+      // 1. HERO PINNED PARALLAX & COURT MATERIALIZATION
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: '+=200%',
-          pin: true,
+          end: '+=100%',
           scrub: 1,
         }
       });
 
       // Basketball Guide movement
-      heroTl.to(ballGuideRef.current, {
-        y: 280,
-        scale: 1.4,
-        rotate: 360,
-        ease: 'none'
-      }, 0);
+      if (ballGuideRef.current) {
+        heroTl.to(ballGuideRef.current, {
+          y: 200,
+          scale: 1.2,
+          rotate: 360,
+          ease: 'none'
+        }, 0);
+      }
 
       // SVG Court Lines Draw
-      heroTl.to(courtLineRef.current, {
-        strokeDashoffset: 0,
-        opacity: 0.8,
-        ease: 'none'
-      }, 0);
-
-      // Typography Morph Sequence
-      heroTl.to('.hero-text-stage-1', { opacity: 0, y: -40 }, 0.2)
-            .to('.hero-text-stage-2', { opacity: 1, y: 0 }, 0.4)
-            .to('.hero-text-stage-2', { opacity: 0, y: -40 }, 0.8)
-            .to('.hero-text-stage-3', { opacity: 1, y: 0 }, 1.0);
+      if (courtLineRef.current) {
+        heroTl.to(courtLineRef.current, {
+          strokeDashoffset: 0,
+          opacity: 0.8,
+          ease: 'none'
+        }, 0);
+      }
 
       // 2. HORIZONTAL GENERATIONS SCROLL (PINNED)
       if (horizontalGenContainerRef.current && horizontalGenRef.current) {
@@ -120,7 +117,7 @@ export default function HomePage() {
       {/* ---------------------------------------------------- */}
       <section
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center bg-devan-dark overflow-hidden border-b border-devan-gold/20"
+        className="relative min-h-[90vh] flex items-center justify-center bg-devan-dark overflow-hidden border-b border-devan-gold/20 py-20"
       >
         {/* Archival Court Texture Overlay */}
         <div className="absolute inset-0 z-0">
@@ -133,13 +130,12 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-paper-grain opacity-20 pointer-events-none" />
         </div>
 
-        {/* SVG Basketball Court Lines (Animated on Scroll) */}
+        {/* SVG Basketball Court Lines */}
         <svg
           className="absolute inset-0 w-full h-full z-10 pointer-events-none opacity-40"
           viewBox="0 0 1000 600"
           preserveAspectRatio="none"
         >
-          {/* Half Court Key & Boundary */}
           <rect
             ref={courtLineRef}
             x="200"
@@ -157,63 +153,59 @@ export default function HomePage() {
           <path d="M 800,180 A 160,160 0 0,1 800,420" fill="none" stroke="#D4AF37" strokeWidth="2" />
         </svg>
 
-        {/* The Basketball Visual Guide */}
+        {/* Basketball Visual Guide Icon */}
         <div
           ref={ballGuideRef}
-          className="absolute top-1/4 z-30 w-16 h-16 rounded-full bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-devan-gold shadow-gold-glow flex items-center justify-center"
+          className="absolute top-12 right-12 z-30 w-14 h-14 rounded-full bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 border-2 border-devan-gold shadow-gold-glow flex items-center justify-center opacity-80 pointer-events-none"
         >
-          {/* Basketball Seam Lines */}
           <div className="w-full h-px bg-black/70 absolute rotate-45" />
           <div className="w-full h-px bg-black/70 absolute -rotate-45" />
-          <div className="w-10 h-10 border border-black/70 rounded-full absolute" />
+          <div className="w-9 h-9 border border-black/70 rounded-full absolute" />
         </div>
 
-        {/* Hero Choreographed Typography Stages */}
-        <div ref={heroTextRef} className="relative z-20 max-w-5xl mx-auto px-4 text-center space-y-6">
+        {/* Hero Header Composition (Non-Collapsing Flow Layout) */}
+        <div ref={heroTextRef} className="relative z-20 max-w-5xl mx-auto px-4 text-center space-y-8 flex flex-col items-center">
           
-          <div className="inline-flex items-center space-x-3 bg-devan-maroon/70 border border-devan-gold/60 px-4 py-1.5 rounded-full text-devan-gold shadow-lg backdrop-blur-md">
+          <div className="inline-flex items-center space-x-3 bg-devan-maroon/80 border border-devan-gold/60 px-5 py-2 rounded-full text-devan-gold shadow-gold-glow backdrop-blur-md">
             <Shield className="w-4 h-4 text-devan-gold" />
             <span className="text-xs tracking-widest font-display font-semibold uppercase">
               Maliyadeva College • Kurunegala
             </span>
           </div>
 
-          {/* Stage 1 Text */}
-          <div className="hero-text-stage-1 space-y-4">
-            <h1 className="font-display text-5xl sm:text-7xl font-extrabold tracking-tight text-devan-paper uppercase leading-none">
-              THE GAME
-            </h1>
-            <p className="font-serif text-lg text-devan-gold italic">
-              Scroll down to discover the legacy...
-            </p>
-          </div>
-
-          {/* Stage 2 Text (Initially hidden, revealed on scroll) */}
-          <div className="hero-text-stage-2 absolute inset-0 opacity-0 translate-y-10 flex flex-col items-center justify-center space-y-4 pointer-events-none">
-            <h2 className="font-display text-4xl sm:text-6xl font-extrabold text-stone-300 uppercase tracking-widest">
-              BECOMES A LEGACY
-            </h2>
-            <p className="font-serif text-base text-stone-400 italic">
-              "Through five decades of championship honors."
-            </p>
-          </div>
-
-          {/* Stage 3 Text (Final Hero Target Title) */}
-          <div className="hero-text-stage-3 absolute inset-0 opacity-0 translate-y-10 flex flex-col items-center justify-center space-y-4 pointer-events-none">
+          <div className="space-y-4">
             <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-devan-paper uppercase tracking-wider leading-tight drop-shadow-2xl">
               {settings?.hero_title || 'DEVANS OLD BASKETBALL CLUB'}
             </h1>
-            <p className="font-serif text-stone-300 text-sm sm:text-xl italic max-w-2xl mx-auto">
+            <p className="font-serif text-devan-gold text-base sm:text-xl italic max-w-3xl mx-auto leading-relaxed">
               "{settings?.hero_subtitle || 'The Living Digital Legacy of Basketball at Maliyadeva College'}"
             </p>
+          </div>
+
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/history"
+              className="px-6 py-3 bg-devan-maroon border border-devan-gold text-devan-gold font-bold text-xs uppercase tracking-widest rounded-full shadow-gold-glow hover:bg-devan-maroon-dark hover:scale-105 transition-all flex items-center space-x-2"
+            >
+              <HistoryIcon className="w-4 h-4" />
+              <span>Explore Historical Archive</span>
+            </Link>
+
+            <Link
+              to="/achievements"
+              className="px-6 py-3 bg-stone-900/90 border border-stone-700 text-stone-200 font-bold text-xs uppercase tracking-widest rounded-full hover:border-devan-gold hover:text-devan-gold transition-all flex items-center space-x-2"
+            >
+              <Award className="w-4 h-4 text-devan-gold" />
+              <span>Trophy Cabinet</span>
+            </Link>
           </div>
 
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center space-y-2 text-devan-gold/80 animate-bounce">
-          <span className="text-[10px] uppercase font-display tracking-widest">Scroll To Enter</span>
-          <ChevronDown className="w-5 h-5 text-devan-gold" />
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center space-y-1 text-devan-gold/80 animate-bounce">
+          <span className="text-[10px] uppercase font-display tracking-widest">Scroll To Explore</span>
+          <ChevronDown className="w-4 h-4 text-devan-gold" />
         </div>
       </section>
 
