@@ -10,6 +10,8 @@ import { PlusCircle } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import PageTransition from '../components/PageTransition';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function PublicLayout() {
@@ -41,9 +43,11 @@ export default function PublicLayout() {
       {/* Navigation Bar */}
       <Navbar settings={settings} />
 
-      {/* Main Content View */}
+      {/* Main Content View with Smooth Page Transition */}
       <main className="flex-grow pt-20">
-        <Outlet context={{ settings, openMemoryModal: () => setMemoryModalOpen(true) }} />
+        <PageTransition>
+          <Outlet context={{ settings, openMemoryModal: () => setMemoryModalOpen(true) }} />
+        </PageTransition>
       </main>
 
       {/* Memory Submission Quick Action Floating Button */}
