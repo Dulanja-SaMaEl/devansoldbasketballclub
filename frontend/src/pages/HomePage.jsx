@@ -247,9 +247,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center space-y-2 text-devan-gold/80 animate-bounce">
-          <span className="text-[10px] uppercase font-display tracking-widest font-bold">Scroll To Explore</span>
+        {/* Scroll Indicator Arrow */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center text-devan-gold/80 animate-bounce">
           <ChevronDown className="w-5 h-5 text-devan-gold" />
         </div>
       </section>
