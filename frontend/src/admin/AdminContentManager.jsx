@@ -29,6 +29,8 @@ export default function AdminContentManager() {
     loadData();
   }, [currentType]);
 
+  const [deletingId, setDeletingId] = useState(null);
+
   const handleOpenAdd = () => {
     setEditingItem(null);
     setFormData(getInitialFormData(currentType));
@@ -41,9 +43,14 @@ export default function AdminContentManager() {
     setModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this record?')) {
-      await api.deleteItem(currentType, id);
+  const confirmDelete = (id) => {
+    setDeletingId(id);
+  };
+
+  const executeDelete = async () => {
+    if (deletingId) {
+      await api.deleteItem(currentType, deletingId);
+      setDeletingId(null);
       loadData();
     }
   };
@@ -113,7 +120,7 @@ export default function AdminContentManager() {
                       <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => confirmDelete(item.id)}
                       className="p-1.5 bg-stone-800 text-red-400 rounded hover:bg-stone-700"
                       title="Delete"
                     >
@@ -124,6 +131,32 @@ export default function AdminContentManager() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deletingId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="max-w-md w-full bg-devan-dark-card border border-red-800/60 rounded-lg p-6 space-y-4 shadow-2xl">
+            <h3 className="font-display font-bold text-lg text-red-400">Confirm Deletion</h3>
+            <p className="font-serif text-sm text-stone-300">
+              Are you sure you want to delete this record from the database? This action cannot be undone.
+            </p>
+            <div className="pt-2 flex justify-end space-x-3">
+              <button
+                onClick={() => setDeletingId(null)}
+                className="px-4 py-2 text-xs uppercase text-stone-400 hover:text-stone-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={executeDelete}
+                className="px-5 py-2 bg-red-900 border border-red-700 text-red-200 font-bold text-xs uppercase tracking-wider rounded hover:bg-red-800"
+              >
+                Delete Record
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

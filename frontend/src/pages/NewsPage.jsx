@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { BookOpen, Calendar, ArrowRight } from 'lucide-react';
+import { BookOpen, Calendar, ArrowRight, X } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 
 export default function NewsPage() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   useEffect(() => {
     api.getList('news', { publicOnly: 'true' })
@@ -46,16 +47,50 @@ export default function NewsPage() {
                   <h3 className="font-serif text-xl font-bold text-devan-paper">{art.title}</h3>
                   <p className="font-serif text-xs text-stone-300 leading-relaxed">{art.excerpt}</p>
                 </div>
-                <div className="pt-4 border-t border-stone-800 text-xs font-bold text-devan-gold flex items-center space-x-1">
+                <button
+                  onClick={() => setSelectedArticle(art)}
+                  className="pt-4 border-t border-stone-800 text-xs font-bold text-devan-gold flex items-center space-x-1 hover:text-amber-300 transition-colors w-max"
+                >
                   <span>Read Article</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </div>
+                </button>
               </div>
             </article>
           ))}
         </div>
       )}
 
+      {/* Article Detail Modal */}
+      {selectedArticle && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md">
+          <div className="max-w-2xl w-full max-h-[85vh] bg-devan-dark-card border border-devan-gold/40 rounded-xl p-6 sm:p-8 relative overflow-y-auto shadow-2xl space-y-6">
+            <button
+              onClick={() => setSelectedArticle(null)}
+              className="absolute top-4 right-4 p-2 text-stone-400 hover:text-devan-gold focus:outline-none"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {selectedArticle.cover_image_url && (
+              <div className="h-56 rounded-lg overflow-hidden border border-stone-800">
+                <img src={selectedArticle.cover_image_url} alt={selectedArticle.title} className="w-full h-full object-cover vintage-photo" />
+              </div>
+            )}
+
+            <div>
+              <span className="archive-stamp text-[10px] text-devan-gold">{selectedArticle.published_date} • {selectedArticle.author || 'Editorial'}</span>
+              <h2 className="font-serif text-2xl font-bold text-devan-paper mt-2">{selectedArticle.title}</h2>
+            </div>
+
+            <div className="font-serif text-sm text-stone-300 leading-relaxed space-y-4">
+              <p className="italic text-devan-gold border-l-2 border-devan-gold pl-3">{selectedArticle.excerpt}</p>
+              <p>{selectedArticle.content}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
+

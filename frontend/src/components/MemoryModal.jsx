@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Send, Image as ImageIcon, Heart, CheckCircle } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function MemoryModal({ isOpen, onClose }) {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   const [formData, setFormData] = useState({
     submitter_name: '',
     submitter_email: '',
