@@ -118,11 +118,6 @@ export default function HomePage() {
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(t => t.kill(true));
-      if (typeof document !== 'undefined') {
-        document.body.removeAttribute('style');
-        document.documentElement.removeAttribute('style');
-      }
     };
   }, [generations]);
 
