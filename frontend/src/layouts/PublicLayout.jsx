@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MemoryModal from '../components/MemoryModal';
+import CustomCursor from '../components/CustomCursor';
+import ScrollProgressTrack from '../components/ScrollProgressTrack';
 import { api } from '../services/api';
 import { PlusCircle } from 'lucide-react';
 
@@ -18,6 +20,12 @@ export default function PublicLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-devan-dark text-stone-200 relative selection:bg-devan-gold selection:text-devan-dark">
+      {/* Desktop Custom Cursor */}
+      <CustomCursor />
+
+      {/* Storytelling Progress Track Indicator */}
+      <ScrollProgressTrack />
+
       {/* Navigation Bar */}
       <Navbar settings={settings} />
 
