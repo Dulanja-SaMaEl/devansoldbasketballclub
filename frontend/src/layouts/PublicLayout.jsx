@@ -10,6 +10,8 @@ import { PlusCircle } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import ErrorBoundary from '../components/ErrorBoundary';
+
 import PageTransition from '../components/PageTransition';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,7 +57,9 @@ export default function PublicLayout() {
 
       {/* Main Content View */}
       <main className="flex-grow pt-20">
-        <Outlet context={{ settings, openMemoryModal: () => setMemoryModalOpen(true) }} />
+        <ErrorBoundary key={location.pathname}>
+          <Outlet context={{ settings: settings || {}, openMemoryModal: () => setMemoryModalOpen(true) }} />
+        </ErrorBoundary>
       </main>
 
       {/* Memory Submission Quick Action Floating Button */}

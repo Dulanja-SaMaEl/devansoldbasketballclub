@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function ContactPage() {
-  const { settings } = useOutletContext();
+  const { settings } = useOutletContext() || {};
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

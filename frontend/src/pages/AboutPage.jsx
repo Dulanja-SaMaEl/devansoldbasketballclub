@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { Shield, Award, Users, BookOpen, Heart, Target, Eye } from 'lucide-react';
 
 export default function AboutPage() {
-  const { settings } = useOutletContext();
+  const { settings } = useOutletContext() || {};
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-16">

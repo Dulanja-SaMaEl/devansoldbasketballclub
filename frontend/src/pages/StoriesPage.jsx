@@ -5,7 +5,7 @@ import { Quote, PlusCircle, Calendar, User } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 
 export default function StoriesPage() {
-  const { openMemoryModal } = useOutletContext();
+  const { openMemoryModal } = useOutletContext() || {};
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
 

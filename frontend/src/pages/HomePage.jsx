@@ -37,7 +37,7 @@ function useScrollReveal(ref, options = {}) {
 }
 
 export default function HomePage() {
-  const { settings, openMemoryModal } = useOutletContext();
+  const { settings, openMemoryModal } = useOutletContext() || {};
   const [achievements, setAchievements] = useState([]);
   const [legends, setLegends] = useState([]);
   const [generations, setGenerations] = useState([]);
