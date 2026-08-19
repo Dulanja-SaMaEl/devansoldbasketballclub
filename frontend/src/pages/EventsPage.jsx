@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { slugify, getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -17,6 +20,12 @@ export default function EventsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Old Basketball Club Events & Reunions | Maliyadeva College"
+        description="Upcoming and past alumni reunions, tournaments, coaching clinics, and celebrations organized by Devans Old Basketball Club in Kurunegala."
+        canonicalPath="/events"
+        jsonLd={getBreadcrumbSchema([{ name: 'Events & Reunions', path: '/events' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">
@@ -45,17 +54,26 @@ export default function EventsPage() {
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-devan-paper">{evt.title}</h3>
                 <p className="font-serif text-xs text-stone-300 leading-relaxed">{evt.description}</p>
-                <div className="flex flex-wrap gap-4 text-xs text-stone-400 pt-2 border-t border-stone-800">
-                  {evt.time && (
+                <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-stone-400 pt-2 border-t border-stone-800">
+                  <div className="flex items-center space-x-4">
+                    {evt.time && (
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-3.5 h-3.5 text-devan-gold" />
+                        <span>{evt.time}</span>
+                      </div>
+                    )}
                     <div className="flex items-center space-x-1">
-                      <Clock className="w-3.5 h-3.5 text-devan-gold" />
-                      <span>{evt.time}</span>
+                      <MapPin className="w-3.5 h-3.5 text-devan-gold" />
+                      <span>{evt.location}</span>
                     </div>
-                  )}
-                  <div className="flex items-center space-x-1">
-                    <MapPin className="w-3.5 h-3.5 text-devan-gold" />
-                    <span>{evt.location}</span>
                   </div>
+                  <Link
+                    to={`/events/${slugify(evt.title)}`}
+                    className="text-xs font-bold text-devan-gold hover:text-amber-300 flex items-center space-x-1 transition-colors"
+                  >
+                    <span>View Event Details</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
 

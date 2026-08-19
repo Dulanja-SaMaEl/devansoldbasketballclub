@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { BookOpen, Calendar, ArrowRight, X } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { slugify, getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function NewsPage() {
   const [news, setNews] = useState([]);
@@ -18,6 +21,12 @@ export default function NewsPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball News & Articles | Maliyadeva Editorial Bulletin"
+        description="Official news, tournament results, club announcements, and editorial articles from Devans Old Basketball Club at Maliyadeva College."
+        canonicalPath="/news"
+        jsonLd={getBreadcrumbSchema([{ name: 'News & Articles', path: '/news' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">
@@ -47,13 +56,21 @@ export default function NewsPage() {
                   <h3 className="font-serif text-xl font-bold text-devan-paper">{art.title}</h3>
                   <p className="font-serif text-xs text-stone-300 leading-relaxed">{art.excerpt}</p>
                 </div>
-                <button
-                  onClick={() => setSelectedArticle(art)}
-                  className="pt-4 border-t border-stone-800 text-xs font-bold text-devan-gold flex items-center space-x-1 hover:text-amber-300 transition-colors w-max"
-                >
-                  <span>Read Article</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                <div className="pt-4 border-t border-stone-800 flex items-center justify-between">
+                  <button
+                    onClick={() => setSelectedArticle(art)}
+                    className="text-xs font-bold text-stone-400 hover:text-stone-200 transition-colors"
+                  >
+                    Quick View
+                  </button>
+                  <Link
+                    to={`/news/${art.slug || slugify(art.title)}`}
+                    className="text-xs font-bold text-devan-gold flex items-center space-x-1 hover:text-amber-300 transition-colors"
+                  >
+                    <span>Read Article</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </article>
           ))}

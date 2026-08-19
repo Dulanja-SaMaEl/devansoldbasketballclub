@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { History as HistoryIcon, Calendar, User, Tag, ArrowUpRight } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function HistoryPage() {
   const [timeline, setTimeline] = useState([]);
@@ -24,6 +26,12 @@ export default function HistoryPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball History & Chronological Timeline | Maliyadeva College"
+        description="Explore the chronological history of basketball at Maliyadeva College in Kurunegala from early founding eras to recent national title runs."
+        canonicalPath="/history"
+        jsonLd={getBreadcrumbSchema([{ name: 'History Timeline', path: '/history' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">

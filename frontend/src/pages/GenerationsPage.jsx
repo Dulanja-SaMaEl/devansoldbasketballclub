@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { BookOpen, Calendar, Users, Shield } from 'lucide-react';
+import { BookOpen, Calendar, Users, Shield, ArrowRight } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { slugify, getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function GenerationsPage() {
   const [generations, setGenerations] = useState([]);
@@ -21,6 +24,12 @@ export default function GenerationsPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball Generations & Eras | Maliyadeva Basketball Archives"
+        description="Explore the decades and generations of Maliyadeva College Basketball players from early pioneer eras to modern court leaders."
+        canonicalPath="/generations"
+        jsonLd={getBreadcrumbSchema([{ name: 'Generations', path: '/generations' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">

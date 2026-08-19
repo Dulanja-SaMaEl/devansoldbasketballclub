@@ -4,6 +4,8 @@ import { Shield, ChevronRight, PlusCircle, Maximize2, ChevronDown, Award, Calend
 import { api } from '../services/api';
 import TrophyCabinet from '../components/TrophyCabinet';
 import Lightbox from '../components/Lightbox';
+import SeoHead from '../components/SeoHead';
+import { getOrganizationSchema, getWebSiteSchema } from '../utils/seoUtils';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -135,6 +137,12 @@ export default function HomePage() {
 
   return (
     <div className="pb-32 relative bg-devan-dark selection:bg-devan-gold selection:text-devan-dark overflow-x-hidden">
+      <SeoHead
+        title="Devans Old Basketball Club | Maliyadeva College, Kurunegala"
+        description="Official living digital archive of Devans Old Basketball Club at Maliyadeva College, Kurunegala, Sri Lanka. Preserving victories, legends, photos, stories, and generations."
+        canonicalPath="/"
+        jsonLd={[getOrganizationSchema(), getWebSiteSchema()]}
+      />
 
       {/* 🏀 RECURRING BASKETBALL INTERACTION OBJECT */}
       <div

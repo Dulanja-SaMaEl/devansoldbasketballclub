@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { Plus, Edit2, Trash2, Check, X, Search, Image as ImageIcon } from 'lucide-react';
+import { slugify } from '../utils/seoUtils';
 
 export default function AdminContentManager() {
   const { type } = useParams();
@@ -57,10 +58,14 @@ export default function AdminContentManager() {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    const payload = { ...formData };
+    if (!payload.slug && (payload.title || payload.name)) {
+      payload.slug = slugify(payload.title || payload.name);
+    }
     if (editingItem) {
-      await api.updateItem(currentType, editingItem.id, formData);
+      await api.updateItem(currentType, editingItem.id, payload);
     } else {
-      await api.createItem(currentType, formData);
+      await api.createItem(currentType, payload);
     }
     setModalOpen(false);
     loadData();

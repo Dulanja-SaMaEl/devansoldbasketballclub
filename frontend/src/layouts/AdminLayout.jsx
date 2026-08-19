@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Award, Users, Image as ImageIcon, BookOpen, Calendar, Settings, Inbox, LogOut, Shield, ChevronRight, FileText } from 'lucide-react';
 import { api } from '../services/api';
+import SeoHead from '../components/SeoHead';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-200 flex flex-col md:flex-row">
+      <SeoHead title="Admin Management Portal | Devans Old Basketball Club" noindex={true} />
       {/* Sidebar Navigation */}
       <aside className="w-full md:w-64 bg-devan-dark-card border-b md:border-b-0 md:border-r border-stone-800 flex flex-col justify-between shrink-0">
         <div>

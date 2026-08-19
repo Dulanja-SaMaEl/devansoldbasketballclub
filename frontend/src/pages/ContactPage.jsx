@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 import { api } from '../services/api';
+import SeoHead from '../components/SeoHead';
+import { getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function ContactPage() {
   const { settings } = useOutletContext() || {};
@@ -24,14 +26,20 @@ export default function ContactPage() {
         setError(res.message || 'Failed to send message.');
       }
     } catch (err) {
-      setError('Network error submitting contact request.');
+      setError('An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Contact Devans Old Basketball Club | Maliyadeva College, Kurunegala"
+        description="Get in touch with Devans Old Basketball Club committee, alumni relations, and basketball program coordinators at Maliyadeva College in Kurunegala, Sri Lanka."
+        canonicalPath="/contact"
+        jsonLd={getBreadcrumbSchema([{ name: 'Contact Us', path: '/contact' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">

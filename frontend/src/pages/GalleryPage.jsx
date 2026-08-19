@@ -3,6 +3,8 @@ import { api } from '../services/api';
 import Lightbox from '../components/Lightbox';
 import LoadingSkeleton from '../components/LoadingSkeleton';
 import { Image as ImageIcon, Maximize2 } from 'lucide-react';
+import SeoHead from '../components/SeoHead';
+import { getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function GalleryPage() {
   const [gallery, setGallery] = useState([]);
@@ -26,6 +28,12 @@ export default function GalleryPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball Photo Archives & Gallery | Maliyadeva College"
+        description="Historical photographic archive of Devans Old Basketball Club featuring championship teams, matches, trophy celebrations, and reunions at Maliyadeva College."
+        canonicalPath="/gallery"
+        jsonLd={getBreadcrumbSchema([{ name: 'Gallery Archive', path: '/gallery' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">

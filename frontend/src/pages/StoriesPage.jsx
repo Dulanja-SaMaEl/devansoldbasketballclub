@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { Quote, PlusCircle, Calendar, User } from 'lucide-react';
+import { Quote, PlusCircle, Calendar, User, ArrowRight } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { slugify, getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function StoriesPage() {
   const { openMemoryModal } = useOutletContext() || {};
@@ -19,6 +21,12 @@ export default function StoriesPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball Stories & Memories | Maliyadeva Alumni Voices"
+        description="Firstperson stories, court anecdotes, brotherhood memories, and alumni perspectives from past Devans Basketball players."
+        canonicalPath="/stories"
+        jsonLd={getBreadcrumbSchema([{ name: 'Alumni Stories', path: '/stories' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">
@@ -66,6 +74,16 @@ export default function StoriesPage() {
                   <img src={sto.image_url} alt={sto.title} className="w-full h-full object-cover vintage-photo" />
                 </div>
               )}
+
+              <div className="pt-3 border-t border-stone-800 flex justify-end">
+                <Link
+                  to={`/stories/${slugify(sto.title)}`}
+                  className="text-xs font-bold text-devan-gold hover:text-amber-300 flex items-center space-x-1 transition-colors"
+                >
+                  <span>Read Full Story</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>

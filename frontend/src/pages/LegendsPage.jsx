@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { Award, Quote, Calendar, User, Search } from 'lucide-react';
+import { Award, Quote, Calendar, User, Search, ArrowRight } from 'lucide-react';
 import LoadingSkeleton from '../components/LoadingSkeleton';
+import SeoHead from '../components/SeoHead';
+import { slugify, getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function LegendsPage() {
   const [legends, setLegends] = useState([]);
@@ -24,6 +27,12 @@ export default function LegendsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <SeoHead
+        title="Devans Basketball Legends & Players | Maliyadeva Hall of Fame"
+        description="Profiles, achievements, and player history of legendary captains, coaches, and court leaders of Devans Old Basketball Club at Maliyadeva College."
+        canonicalPath="/legends"
+        jsonLd={getBreadcrumbSchema([{ name: 'Legends', path: '/legends' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-8">
@@ -90,6 +99,16 @@ export default function LegendsPage() {
                     "{leg.quote}"
                   </blockquote>
                 )}
+
+                <div className="pt-2 border-t border-stone-800">
+                  <Link
+                    to={`/legends/${slugify(leg.name)}`}
+                    className="text-xs font-bold text-devan-gold hover:text-amber-300 flex items-center space-x-1 transition-colors"
+                  >
+                    <span>View Legend Profile</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

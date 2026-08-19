@@ -1,0 +1,22 @@
+# Devans Old Basketball Club — Robots.txt
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /history
+Allow: /achievements
+Allow: /legends
+Allow: /generations
+Allow: /gallery
+Allow: /stories
+Allow: /news
+Allow: /events
+Allow: /contact
+
+# Block Administrative & Internal API Routes
+Disallow: /admin/
+Disallow: /admin
+Disallow: /api/
+Disallow: /api
+
+# Sitemap Reference
+Sitemap: https://olddevansbasketball.com/sitemap.xml

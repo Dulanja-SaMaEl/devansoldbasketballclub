@@ -1,12 +1,20 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Shield, Award, Users, BookOpen, Heart, Target, Eye } from 'lucide-react';
+import SeoHead from '../components/SeoHead';
+import { getBreadcrumbSchema } from '../utils/seoUtils';
 
 export default function AboutPage() {
   const { settings } = useOutletContext() || {};
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-16">
+      <SeoHead
+        title="Maliyadeva Basketball Legacy & Culture | Devans Old Basketball Club"
+        description="Learn about the origin, mission, values, and unbroken community bond of Devans Old Basketball Club at Maliyadeva College in Kurunegala, Sri Lanka."
+        canonicalPath="/about"
+        jsonLd={getBreadcrumbSchema([{ name: 'About', path: '/about' }])}
+      />
       
       {/* Header */}
       <div className="text-center space-y-4 border-b border-stone-800 pb-10">
