@@ -1,9 +1,32 @@
+import { supabase } from './supabaseClient';
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 // Helper to retrieve auth token
 const getAuthHeaders = () => {
   const token = localStorage.getItem('devans_admin_token');
   return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+// Table name resolver for Supabase vs backend REST
+const resolveTableName = (endpoint) => {
+  const map = {
+    'timeline': 'timeline',
+    'timeline_entries': 'timeline',
+    'legends': 'legends',
+    'achievements': 'achievements',
+    'generations': 'generations',
+    'gallery': 'gallery',
+    'gallery_images': 'gallery',
+    'stories': 'stories',
+    'news': 'news',
+    'news_articles': 'news',
+    'events': 'events',
+    'submissions': 'submissions',
+    'settings': 'settings',
+    'site_settings': 'settings'
+  };
+  return map[endpoint] || endpoint;
 };
 
 // Fallback archival datasets when backend is unreachable or static-hosted
@@ -18,44 +41,42 @@ const MOCK_DATA = {
     phone: '+94 37 222 2222'
   },
   achievements: [
-    { id: 1, title: 'All-Island Schools Basketball Championship', year: 1994, category: 'National Championship', description: 'Maliyadeva College Basketball Team won the prestigious All-Island National Title in a historic finals victory.', trophy_type: 'Gold' },
-    { id: 2, title: 'Wayamba Provincial Championship', year: 2008, category: 'Provincial Championship', description: 'Unbeaten tournament run securing the Wayamba Province championship trophy.', trophy_type: 'Gold' },
-    { id: 3, title: 'National Youth League Finals', year: 2016, category: 'National League', description: 'Runner-up honors after a thrilling double-overtime national tournament final.', trophy_type: 'Silver' },
-    { id: 4, title: 'Centenary Founders Memorial Cup', year: 2022, category: 'Invitational Tournament', description: 'Claimed top honors at the inter-school invitation tournament.', trophy_type: 'Gold' }
+    { id: 'ach-1', title: 'All-Island Schools Basketball Championship', year: 1994, category: 'National Championship', description: 'Maliyadeva College Basketball Team won the prestigious All-Island National Title in a historic finals victory.', trophy_type: 'Gold' },
+    { id: 'ach-2', title: 'Wayamba Provincial Championship', year: 2008, category: 'Provincial Championship', description: 'Unbeaten tournament run securing the Wayamba Province championship trophy.', trophy_type: 'Gold' },
+    { id: 'ach-3', title: 'National Youth League Finals', year: 2016, category: 'National League', description: 'Runner-up honors after a thrilling double-overtime national tournament final.', trophy_type: 'Silver' },
+    { id: 'ach-4', title: 'Centenary Founders Memorial Cup', year: 2022, category: 'Invitational Tournament', description: 'Claimed top honors at the inter-school invitation tournament.', trophy_type: 'Gold' }
   ],
   legends: [
-    { id: 1, name: 'K. B. Herath', nickname: 'The General', era: '1980s Era', bio: 'Pioneering team captain who anchored Maliyadeva basketball through its inaugural championship appearances.', photo_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80' },
-    { id: 2, name: 'Rohan Fernando', nickname: 'Coach Rohan', era: '1990s Era', bio: 'Master strategist and coach who led the 1994 squad to national glory.', photo_url: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=600&q=80' },
-    { id: 3, name: 'Dinesh Senanayake', nickname: 'Sniper', era: '2000s Era', bio: 'All-Island MVP and clutch point guard famous for game-winning perimeter shots.', photo_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=600&q=80' },
-    { id: 4, name: 'S. T. Bandara', nickname: 'The Anchor', era: '2010s Era', bio: 'Record holder for highest career scoring average and defensive rebounds in college history.', photo_url: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=600&q=80' }
+    { id: 'leg-1', name: 'Devans Alumni Captain', nickname: 'The Point Guard', role: 'Captain', era: '1992 - 1997', bio: 'Inspirational captain of the 1990s championship squad. Known for clutch game-winning shots and defensive leadership.', photo_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80' },
+    { id: 'leg-2', name: 'Devans Veteran Head Coach', nickname: 'Coach Master', role: 'Head Coach', era: '1985 - 2002', bio: 'Legendary coach who dedicated two decades to moulding Devans players into court leaders on and off the hard floor.', photo_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80' }
   ],
   generations: [
-    { id: 1, name: 'The Founding Pioneers', start_year: 1970, end_year: 1989, description: 'The foundation era where basketball court roots were established at Maliyadeva College.', team_photo_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80' },
-    { id: 2, name: 'The Golden Championship Era', start_year: 1990, end_year: 2009, description: 'A dominant era marked by island-wide tournament titles and regional supremacy.', team_photo_url: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80' },
-    { id: 3, name: 'The Modern Resurgence', start_year: 2010, end_year: 2025, description: 'Modern infrastructure, digital archives, and continuous alumni support.', team_photo_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80' }
+    { id: 'gen-1', name: '1980s Pioneers', start_year: 1980, end_year: 1989, description: 'The founding generation who built the grit, endurance, and groundwork for Maliyadeva basketball.', team_photo_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80' },
+    { id: 'gen-2', name: '1990s Champions', start_year: 1990, end_year: 1999, description: 'An era of intense provincial rivalries, All-Island glory, and iconic team brotherhood.', team_photo_url: 'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80' },
+    { id: 'gen-3', name: '2000s Renaissance', start_year: 2000, end_year: 2009, description: 'Technical court discipline and fast-paced perimeter shooting defined this generation.', team_photo_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80' }
   ],
   timeline: [
-    { id: 1, year: 1978, title: 'Inauguration of College Basketball Court', category: 'Foundation', description: 'Official inauguration of the Maliyadeva College basketball program and court setup.' },
-    { id: 2, year: 1994, title: 'First National Championship Victory', category: 'Championship', description: 'Claimed the All-Island Schools Basketball Championship in Colombo.' },
-    { id: 3, year: 2008, title: 'Unbeaten Provincial Campaign', category: 'Milestone', description: 'Completed a 14-game unbeaten streak across the Wayamba Province championship.' },
-    { id: 4, year: 2018, title: 'Court Lighting Modernization', category: 'Infrastructure', description: 'Installation of modern floodlight systems for evening practice sessions and tournaments.' },
-    { id: 5, year: 2024, title: 'Digital Legacy Archive Launch', category: 'Digital Era', description: 'Establishment of Devans Old Basketball Club interactive historical archive.' }
+    { id: 'tm-1', year: 1978, title: 'Inauguration of College Basketball Court', category: 'Foundation', description: 'Initial courts established at Maliyadeva College grounds under athletic council.' },
+    { id: 'tm-2', year: 1994, title: 'First National Championship Victory', category: 'Championship', description: 'Maliyadeva Basketball won the prestigious All-Island championship title.' },
+    { id: 'tm-3', year: 2008, title: 'Unbeaten Provincial Campaign', category: 'Milestone', description: 'Completed a 14-game unbeaten streak across the Wayamba Province championship.' },
+    { id: 'tm-4', year: 2018, title: 'Court Lighting Modernization', category: 'Infrastructure', description: 'Installation of modern floodlight systems for evening practice sessions and tournaments.' },
+    { id: 'tm-5', year: 2024, title: 'Digital Legacy Archive Launch', category: 'Digital Era', description: 'Establishment of Devans Old Basketball Club interactive historical archive.' }
   ],
   gallery: [
-    { id: 1, title: '1994 Victory Celebration', year: 1994, image_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80' },
-    { id: 2, title: 'Maliyadeva Court Practice Session', year: 2005, image_url: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=800&q=80' },
-    { id: 3, title: 'Alumni Match Tournament', year: 2019, image_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80' },
-    { id: 4, title: 'Junior Squad Championship Final', year: 2022, image_url: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800&q=80' }
+    { id: 'gal-1', title: '1994 Victory Celebration', year: 1994, image_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80' },
+    { id: 'gal-2', title: 'Maliyadeva Court Practice Session', year: 2005, image_url: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=800&q=80' },
+    { id: 'gal-3', title: 'Alumni Match Tournament', year: 2019, image_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80' },
+    { id: 'gal-4', title: 'Junior Squad Championship Final', year: 2022, image_url: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800&q=80' }
   ],
   stories: [
-    { id: 1, title: 'Under the Floodlights: The 1994 Final', author: 'Anura Wickramasinghe', year: 1994, content: 'Recollections of the tense final quarter during the All-Island Championship in Colombo...', summary: 'The story behind the fourth-quarter comeback that secured Maliyadeva’s first national trophy.' },
-    { id: 2, title: 'Brothers in Maroon & Gold', author: 'Chaminda Bandara', year: 2008, content: 'Reflections on team chemistry, early morning drills, and lifelong friendships forged on court...', summary: 'How court culture shaped leaders both in sports and professional careers.' }
+    { id: 'sto-1', title: 'Under the Floodlights: The 1994 Final', author: 'Anura Wickramasinghe', year: 1994, content: 'Recollections of the tense final quarter during the All-Island Championship in Colombo...', summary: 'The story behind the fourth-quarter comeback that secured Maliyadeva’s first national trophy.' },
+    { id: 'sto-2', title: 'Brothers in Maroon & Gold', author: 'Chaminda Bandara', year: 2008, content: 'Reflections on team chemistry, early morning drills, and lifelong friendships forged on court...', summary: 'How court culture shaped leaders both in sports and professional careers.' }
   ],
   news: [
-    { id: 1, title: 'Annual Alumni Basketball League Announced', date: '2026-09-15', category: 'Notice', content: 'Registration is now open for the 2026 Devans Old Basketball Club Championship.' }
+    { id: 'news-1', title: 'Annual Alumni Basketball League Announced', date: '2026-09-15', category: 'Notice', content: 'Registration is now open for the 2026 Devans Old Basketball Club Championship.' }
   ],
   events: [
-    { id: 1, title: 'Devans Alumni Basketball Championship 2026', date: '2026-10-10', time: '08:30 AM', location: 'Maliyadeva Basketball Court', status: 'Upcoming' }
+    { id: 'evt-1', title: 'Devans Alumni Basketball Championship 2026', date: '2026-10-10', time: '08:30 AM', location: 'Maliyadeva Basketball Court', status: 'Upcoming' }
   ]
 };
 
@@ -115,9 +136,25 @@ export const api = {
 
   // Site Settings
   getSettings: async () => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('settings').select('*').single();
+        if (!error && data) return { success: true, data };
+      } catch (e) {
+        console.warn('Supabase settings query error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/settings`, {}, 'settings');
   },
   updateSettings: async (settings) => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('settings').upsert([settings]).select();
+        if (!error && data) return { success: true, data: data[0] };
+      } catch (e) {
+        console.warn('Supabase updateSettings error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/settings`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
@@ -127,25 +164,90 @@ export const api = {
 
   // Dashboard Stats
   getDashboardStats: async () => {
+    if (supabase) {
+      try {
+        const [ach, leg, gen, gal, sto, nws, evt, sub] = await Promise.all([
+          supabase.from('achievements').select('id', { count: 'exact' }),
+          supabase.from('legends').select('id', { count: 'exact' }),
+          supabase.from('generations').select('id', { count: 'exact' }),
+          supabase.from(resolveTableName('gallery')).select('id', { count: 'exact' }),
+          supabase.from('stories').select('id', { count: 'exact' }),
+          supabase.from(resolveTableName('news')).select('id', { count: 'exact' }),
+          supabase.from('events').select('id', { count: 'exact' }),
+          supabase.from('submissions').select('id', { count: 'exact' })
+        ]);
+
+        return {
+          success: true,
+          isDirectSupabase: true,
+          stats: {
+            totalAchievements: ach.count || ach.data?.length || 0,
+            totalLegends: leg.count || leg.data?.length || 0,
+            totalGenerations: gen.count || gen.data?.length || 0,
+            totalGalleryImages: gal.count || gal.data?.length || 0,
+            totalStories: sto.count || sto.data?.length || 0,
+            publishedArticles: nws.count || nws.data?.length || 0,
+            upcomingEvents: evt.count || evt.data?.length || 0,
+            pendingSubmissions: sub.count || sub.data?.length || 0
+          }
+        };
+      } catch (e) {
+        console.warn('Supabase getDashboardStats error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/admin/dashboard-stats`, {
       headers: { ...getAuthHeaders() }
     });
   },
 
-  // Generic REST GET List
+  // Generic REST GET List (Reads live from Supabase if configured)
   getList: async (endpoint, params = {}) => {
-    const query = new URLSearchParams(params).toString();
-    const url = `${API_BASE}/${endpoint}${query ? `?${query}` : ''}`;
+    if (supabase) {
+      try {
+        const tableName = resolveTableName(endpoint);
+        let query = supabase.from(tableName).select('*');
+        const { data, error } = await query;
+        if (!error && data) {
+          return { success: true, data, isDirectSupabase: true };
+        }
+      } catch (e) {
+        console.warn(`Supabase getList error for ${endpoint}:`, e);
+      }
+    }
+
+    const queryStr = new URLSearchParams(params).toString();
+    const url = `${API_BASE}/${endpoint}${queryStr ? `?${queryStr}` : ''}`;
     return safeFetchJson(url, {}, endpoint);
   },
 
   // Generic GET Single
   getById: async (endpoint, id) => {
+    if (supabase) {
+      try {
+        const tableName = resolveTableName(endpoint);
+        const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
+        if (!error && data) return { success: true, data };
+      } catch (e) {
+        console.warn(`Supabase getById error for ${endpoint}:`, e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {}, endpoint);
   },
 
-  // Protected Admin CREATE
+  // Protected Admin CREATE (Inserts live into Supabase)
   createItem: async (endpoint, item) => {
+    if (supabase) {
+      try {
+        const tableName = resolveTableName(endpoint);
+        const { data, error } = await supabase.from(tableName).insert([item]).select();
+        if (!error && data && data.length > 0) {
+          return { success: true, data: data[0], message: 'Created successfully in Supabase DB' };
+        }
+        if (error) console.error(`Supabase createItem error for ${endpoint}:`, error.message);
+      } catch (e) {
+        console.warn(`Supabase createItem exception for ${endpoint}:`, e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
@@ -153,8 +255,20 @@ export const api = {
     });
   },
 
-  // Protected Admin UPDATE
+  // Protected Admin UPDATE (Updates live in Supabase)
   updateItem: async (endpoint, id, item) => {
+    if (supabase) {
+      try {
+        const tableName = resolveTableName(endpoint);
+        const { data, error } = await supabase.from(tableName).update(item).eq('id', id).select();
+        if (!error && data && data.length > 0) {
+          return { success: true, data: data[0], message: 'Updated successfully in Supabase DB' };
+        }
+        if (error) console.error(`Supabase updateItem error for ${endpoint}:`, error.message);
+      } catch (e) {
+        console.warn(`Supabase updateItem exception for ${endpoint}:`, e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
@@ -162,8 +276,20 @@ export const api = {
     });
   },
 
-  // Protected Admin DELETE
+  // Protected Admin DELETE (Deletes live from Supabase)
   deleteItem: async (endpoint, id) => {
+    if (supabase) {
+      try {
+        const tableName = resolveTableName(endpoint);
+        const { error } = await supabase.from(tableName).delete().eq('id', id);
+        if (!error) {
+          return { success: true, message: 'Deleted successfully from Supabase DB' };
+        }
+        if (error) console.error(`Supabase deleteItem error for ${endpoint}:`, error.message);
+      } catch (e) {
+        console.warn(`Supabase deleteItem exception for ${endpoint}:`, e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {
       method: 'DELETE',
       headers: { ...getAuthHeaders() }
@@ -172,6 +298,14 @@ export const api = {
 
   // Public Alumni Submissions
   submitMemory: async (submissionData) => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('submissions').insert([submissionData]).select();
+        if (!error && data) return { success: true, data: data[0] };
+      } catch (e) {
+        console.warn('Supabase submitMemory error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/submissions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -181,12 +315,28 @@ export const api = {
 
   // Admin Manage Submissions
   getSubmissions: async () => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('submissions').select('*');
+        if (!error && data) return { success: true, data };
+      } catch (e) {
+        console.warn('Supabase getSubmissions error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/admin/submissions`, {
       headers: { ...getAuthHeaders() }
     });
   },
 
   moderateSubmission: async (id, status) => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('submissions').update({ status }).eq('id', id).select();
+        if (!error && data) return { success: true, data: data[0] };
+      } catch (e) {
+        console.warn('Supabase moderateSubmission error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/admin/submissions/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
@@ -196,6 +346,14 @@ export const api = {
 
   // Contact Messages
   sendContactMessage: async (contactData) => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('contact_messages').insert([contactData]).select();
+        if (!error && data) return { success: true, data: data[0] };
+      } catch (e) {
+        console.warn('Supabase sendContactMessage error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/contact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -204,6 +362,14 @@ export const api = {
   },
 
   getContactMessages: async () => {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('contact_messages').select('*');
+        if (!error && data) return { success: true, data };
+      } catch (e) {
+        console.warn('Supabase getContactMessages error:', e);
+      }
+    }
     return safeFetchJson(`${API_BASE}/admin/messages`, {
       headers: { ...getAuthHeaders() }
     });
