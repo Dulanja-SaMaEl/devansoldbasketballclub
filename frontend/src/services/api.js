@@ -8,25 +8,24 @@ const getAuthHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-// Table name resolver for Supabase vs backend REST
-const resolveTableName = (endpoint) => {
-  const map = {
-    'timeline': 'timeline',
-    'timeline_entries': 'timeline',
-    'legends': 'legends',
-    'achievements': 'achievements',
-    'generations': 'generations',
-    'gallery': 'gallery',
-    'gallery_images': 'gallery',
-    'stories': 'stories',
-    'news': 'news',
-    'news_articles': 'news',
-    'events': 'events',
-    'submissions': 'submissions',
-    'settings': 'settings',
-    'site_settings': 'settings'
-  };
-  return map[endpoint] || endpoint;
+// Candidate table names matching both Supabase schema.sql and custom user tables
+const getCandidateTables = (endpoint) => {
+  switch (endpoint) {
+    case 'timeline':
+    case 'timeline_entries':
+      return ['timeline', 'timeline_entries'];
+    case 'gallery':
+    case 'gallery_images':
+      return ['gallery', 'gallery_images'];
+    case 'news':
+    case 'news_articles':
+      return ['news', 'news_articles'];
+    case 'settings':
+    case 'site_settings':
+      return ['settings', 'site_settings'];
+    default:
+      return [endpoint];
+  }
 };
 
 // Fallback archival datasets when backend is unreachable or static-hosted
@@ -137,22 +136,29 @@ export const api = {
   // Site Settings
   getSettings: async () => {
     if (supabase) {
-      try {
-        const { data, error } = await supabase.from('settings').select('*').single();
-        if (!error && data) return { success: true, data };
-      } catch (e) {
-        console.warn('Supabase settings query error:', e);
+      const tables = getCandidateTables('settings');
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).select('*').single();
+          if (!error && data) return { success: true, data };
+        } catch (e) {
+          console.warn(`Supabase settings query error on ${table}:`, e);
+        }
       }
     }
     return safeFetchJson(`${API_BASE}/settings`, {}, 'settings');
   },
+
   updateSettings: async (settings) => {
     if (supabase) {
-      try {
-        const { data, error } = await supabase.from('settings').upsert([settings]).select();
-        if (!error && data) return { success: true, data: data[0] };
-      } catch (e) {
-        console.warn('Supabase updateSettings error:', e);
+      const tables = getCandidateTables('settings');
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).upsert([settings]).select();
+          if (!error && data && data.length > 0) return { success: true, data: data[0] };
+        } catch (e) {
+          console.warn(`Supabase updateSettings error on ${table}:`, e);
+        }
       }
     }
     return safeFetchJson(`${API_BASE}/settings`, {
@@ -166,29 +172,38 @@ export const api = {
   getDashboardStats: async () => {
     if (supabase) {
       try {
-        const [ach, leg, gen, gal, sto, nws, evt, sub] = await Promise.all([
-          supabase.from('achievements').select('id', { count: 'exact' }),
-          supabase.from('legends').select('id', { count: 'exact' }),
-          supabase.from('generations').select('id', { count: 'exact' }),
-          supabase.from(resolveTableName('gallery')).select('id', { count: 'exact' }),
-          supabase.from('stories').select('id', { count: 'exact' }),
-          supabase.from(resolveTableName('news')).select('id', { count: 'exact' }),
-          supabase.from('events').select('id', { count: 'exact' }),
-          supabase.from('submissions').select('id', { count: 'exact' })
+        const fetchCount = async (endpoint) => {
+          const tables = getCandidateTables(endpoint);
+          for (const table of tables) {
+            const { data, count, error } = await supabase.from(table).select('id', { count: 'exact' });
+            if (!error && data) return count ?? data.length;
+          }
+          return 0;
+        };
+
+        const [achCount, legCount, genCount, galCount, stoCount, nwsCount, evtCount, subCount] = await Promise.all([
+          fetchCount('achievements'),
+          fetchCount('legends'),
+          fetchCount('generations'),
+          fetchCount('gallery'),
+          fetchCount('stories'),
+          fetchCount('news'),
+          fetchCount('events'),
+          fetchCount('submissions')
         ]);
 
         return {
           success: true,
           isDirectSupabase: true,
           stats: {
-            totalAchievements: ach.count || ach.data?.length || 0,
-            totalLegends: leg.count || leg.data?.length || 0,
-            totalGenerations: gen.count || gen.data?.length || 0,
-            totalGalleryImages: gal.count || gal.data?.length || 0,
-            totalStories: sto.count || sto.data?.length || 0,
-            publishedArticles: nws.count || nws.data?.length || 0,
-            upcomingEvents: evt.count || evt.data?.length || 0,
-            pendingSubmissions: sub.count || sub.data?.length || 0
+            totalAchievements: achCount,
+            totalLegends: legCount,
+            totalGenerations: genCount,
+            totalGalleryImages: galCount,
+            totalStories: stoCount,
+            publishedArticles: nwsCount,
+            upcomingEvents: evtCount,
+            pendingSubmissions: subCount
           }
         };
       } catch (e) {
@@ -200,18 +215,19 @@ export const api = {
     });
   },
 
-  // Generic REST GET List (Reads live from Supabase if configured)
+  // Generic REST GET List (Reads live from Supabase with candidate table fallback)
   getList: async (endpoint, params = {}) => {
     if (supabase) {
-      try {
-        const tableName = resolveTableName(endpoint);
-        let query = supabase.from(tableName).select('*');
-        const { data, error } = await query;
-        if (!error && data) {
-          return { success: true, data, isDirectSupabase: true };
+      const tables = getCandidateTables(endpoint);
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).select('*');
+          if (!error && data && data.length > 0) {
+            return { success: true, data, isDirectSupabase: true, activeTable: table };
+          }
+        } catch (e) {
+          console.warn(`Supabase getList error for ${table}:`, e);
         }
-      } catch (e) {
-        console.warn(`Supabase getList error for ${endpoint}:`, e);
       }
     }
 
@@ -223,29 +239,32 @@ export const api = {
   // Generic GET Single
   getById: async (endpoint, id) => {
     if (supabase) {
-      try {
-        const tableName = resolveTableName(endpoint);
-        const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
-        if (!error && data) return { success: true, data };
-      } catch (e) {
-        console.warn(`Supabase getById error for ${endpoint}:`, e);
+      const tables = getCandidateTables(endpoint);
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
+          if (!error && data) return { success: true, data };
+        } catch (e) {
+          console.warn(`Supabase getById error for ${table}:`, e);
+        }
       }
     }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {}, endpoint);
   },
 
-  // Protected Admin CREATE (Inserts live into Supabase)
+  // Protected Admin CREATE (Inserts live into active Supabase table)
   createItem: async (endpoint, item) => {
     if (supabase) {
-      try {
-        const tableName = resolveTableName(endpoint);
-        const { data, error } = await supabase.from(tableName).insert([item]).select();
-        if (!error && data && data.length > 0) {
-          return { success: true, data: data[0], message: 'Created successfully in Supabase DB' };
+      const tables = getCandidateTables(endpoint);
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).insert([item]).select();
+          if (!error && data && data.length > 0) {
+            return { success: true, data: data[0], message: `Created successfully in Supabase table '${table}'` };
+          }
+        } catch (e) {
+          console.warn(`Supabase createItem exception for ${table}:`, e);
         }
-        if (error) console.error(`Supabase createItem error for ${endpoint}:`, error.message);
-      } catch (e) {
-        console.warn(`Supabase createItem exception for ${endpoint}:`, e);
       }
     }
     return safeFetchJson(`${API_BASE}/${endpoint}`, {
@@ -255,18 +274,19 @@ export const api = {
     });
   },
 
-  // Protected Admin UPDATE (Updates live in Supabase)
+  // Protected Admin UPDATE (Updates live in active Supabase table)
   updateItem: async (endpoint, id, item) => {
     if (supabase) {
-      try {
-        const tableName = resolveTableName(endpoint);
-        const { data, error } = await supabase.from(tableName).update(item).eq('id', id).select();
-        if (!error && data && data.length > 0) {
-          return { success: true, data: data[0], message: 'Updated successfully in Supabase DB' };
+      const tables = getCandidateTables(endpoint);
+      for (const table of tables) {
+        try {
+          const { data, error } = await supabase.from(table).update(item).eq('id', id).select();
+          if (!error && data && data.length > 0) {
+            return { success: true, data: data[0], message: `Updated successfully in Supabase table '${table}'` };
+          }
+        } catch (e) {
+          console.warn(`Supabase updateItem exception for ${table}:`, e);
         }
-        if (error) console.error(`Supabase updateItem error for ${endpoint}:`, error.message);
-      } catch (e) {
-        console.warn(`Supabase updateItem exception for ${endpoint}:`, e);
       }
     }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {
@@ -276,18 +296,19 @@ export const api = {
     });
   },
 
-  // Protected Admin DELETE (Deletes live from Supabase)
+  // Protected Admin DELETE (Deletes live from active Supabase table)
   deleteItem: async (endpoint, id) => {
     if (supabase) {
-      try {
-        const tableName = resolveTableName(endpoint);
-        const { error } = await supabase.from(tableName).delete().eq('id', id);
-        if (!error) {
-          return { success: true, message: 'Deleted successfully from Supabase DB' };
+      const tables = getCandidateTables(endpoint);
+      for (const table of tables) {
+        try {
+          const { error } = await supabase.from(table).delete().eq('id', id);
+          if (!error) {
+            return { success: true, message: `Deleted successfully from Supabase table '${table}'` };
+          }
+        } catch (e) {
+          console.warn(`Supabase deleteItem exception for ${table}:`, e);
         }
-        if (error) console.error(`Supabase deleteItem error for ${endpoint}:`, error.message);
-      } catch (e) {
-        console.warn(`Supabase deleteItem exception for ${endpoint}:`, e);
       }
     }
     return safeFetchJson(`${API_BASE}/${endpoint}/${id}`, {

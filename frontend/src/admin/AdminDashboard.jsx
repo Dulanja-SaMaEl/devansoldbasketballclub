@@ -17,9 +17,13 @@ export default function AdminDashboard() {
       .then(res => {
         if (res && res.stats) {
           setStats(res.stats);
-          setSystemHealth({ server: 'ONLINE', database: 'SUPABASE READY', mode: 'REST LIVE' });
+          if (res.isDirectSupabase) {
+            setSystemHealth({ server: 'ONLINE', database: 'SUPABASE LIVE DB', mode: 'SUPABASE DIRECT' });
+          } else {
+            setSystemHealth({ server: 'ONLINE (FALLBACK)', database: 'CONNECT KEYS IN .ENV', mode: 'STATIC CACHE' });
+          }
         } else {
-          setSystemHealth({ server: 'ONLINE (FALLBACK)', database: 'ARCHIVAL SYNCED', mode: 'STATIC HYBRID' });
+          setSystemHealth({ server: 'ONLINE (FALLBACK)', database: 'CONNECT KEYS IN .ENV', mode: 'STATIC HYBRID' });
         }
       })
       .catch(() => {
