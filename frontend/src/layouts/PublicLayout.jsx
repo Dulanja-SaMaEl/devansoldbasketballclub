@@ -19,11 +19,32 @@ export default function PublicLayout() {
   const [settings, setSettings] = useState(null);
   const [memoryModalOpen, setMemoryModalOpen] = useState(false);
 
-  // Automatically scroll to top and reset GSAP state on route changes
+  // Automatically scroll to top and clear all GSAP pin spacers & body mutations on route changes
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    ScrollTrigger.getAll().forEach(t => t.kill());
-    gsap.set('body', { clearProps: 'all' });
+    
+    // Kill all active GSAP ScrollTrigger instances
+    ScrollTrigger.getAll().forEach(t => t.kill(true));
+
+    // Clear inline styles from body, html, and root
+    if (typeof document !== 'undefined') {
+      document.body.removeAttribute('style');
+      document.documentElement.removeAttribute('style');
+      const root = document.getElementById('root');
+      if (root) root.removeAttribute('style');
+
+      // Unwrap any lingering GSAP .pin-spacer elements
+      const pinSpacers = document.querySelectorAll('.pin-spacer');
+      pinSpacers.forEach(spacer => {
+        while (spacer.firstChild) {
+          spacer.parentNode.insertBefore(spacer.firstChild, spacer);
+        }
+        if (spacer.parentNode) {
+          spacer.parentNode.removeChild(spacer);
+        }
+      });
+    }
+
     ScrollTrigger.refresh();
   }, [location.pathname]);
 
