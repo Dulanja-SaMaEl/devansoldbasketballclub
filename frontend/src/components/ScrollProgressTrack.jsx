@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const CHAPTERS = [
+  { num: '01', name: 'ORIGIN' },
+  { num: '02', name: 'RISE' },
+  { num: '03', name: 'CHAMPIONS' },
+  { num: '04', name: 'LEGENDS' },
+  { num: '05', name: 'GENERATIONS' },
+  { num: '06', name: 'MEMORIES' },
+  { num: '07', name: 'PRESENT' },
+  { num: '08', name: 'FUTURE' }
+];
+
 export default function ScrollProgressTrack() {
   const location = useLocation();
   const [activeChapter, setActiveChapter] = useState(0);
 
-  // Render chapters progress bar exclusively on the homepage
-  if (location.pathname !== '/') return null;
-
-  const chapters = [
-    { num: '01', name: 'ORIGIN' },
-    { num: '02', name: 'RISE' },
-    { num: '03', name: 'CHAMPIONS' },
-    { num: '04', name: 'LEGENDS' },
-    { num: '05', name: 'GENERATIONS' },
-    { num: '06', name: 'MEMORIES' },
-    { num: '07', name: 'PRESENT' },
-    { num: '08', name: 'FUTURE' }
-  ];
-
+  // MUST be called before any conditional return to follow React Rules of Hooks
   useEffect(() => {
+    if (location.pathname !== '/') return;
+
     const handleScroll = () => {
       const scrollPos = window.scrollY;
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -27,21 +27,24 @@ export default function ScrollProgressTrack() {
 
       const progress = scrollPos / totalHeight;
       const index = Math.min(
-        Math.floor(progress * chapters.length),
-        chapters.length - 1
+        Math.floor(progress * CHAPTERS.length),
+        CHAPTERS.length - 1
       );
       setActiveChapter(index);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [chapters.length]);
+  }, [location.pathname]);
+
+  // Render chapters progress bar exclusively on the homepage
+  if (location.pathname !== '/') return null;
 
   return (
     <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col space-y-4 pointer-events-none">
       <div className="w-px h-12 bg-gradient-to-b from-transparent to-devan-gold/40 mx-auto" />
 
-      {chapters.map((ch, idx) => {
+      {CHAPTERS.map((ch, idx) => {
         const isActive = activeChapter === idx;
         return (
           <div
