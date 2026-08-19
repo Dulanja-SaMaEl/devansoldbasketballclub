@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { Shield, Award, History as HistoryIcon, ArrowRight, ChevronRight, Quote, PlusCircle, Maximize2, Sparkles, ChevronDown } from 'lucide-react';
 import { api } from '../services/api';
@@ -39,6 +39,18 @@ export default function HomePage() {
     api.getList('stories', { publicOnly: 'true' }).then(res => res.data && setStories(res.data));
   }, []);
 
+  // CRITICAL: useLayoutEffect cleanup fires SYNCHRONOUSLY before the DOM is repainted
+  // on unmount. This guarantees GSAP pins are destroyed BEFORE the next page renders.
+  useLayoutEffect(() => {
+    return () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      ScrollTrigger.clearScrollMemory();
+      document.body.style.overflow = '';
+      document.body.style.paddingTop = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -51,6 +63,7 @@ export default function HomePage() {
             start: 'top top',
             end: '+=180%',
             pin: true,
+            anticipatePin: 1,
             scrub: 1,
           }
         });
@@ -91,6 +104,7 @@ export default function HomePage() {
             scrollTrigger: {
               trigger: horizontalGenContainerRef.current,
               pin: true,
+              anticipatePin: 1,
               scrub: 1,
               end: () => `+=${totalWidth}`
             }
@@ -120,6 +134,7 @@ export default function HomePage() {
       ctx.revert();
     };
   }, [generations]);
+
 
   return (
     <div className="space-y-32 pb-32 overflow-hidden selection:bg-devan-gold selection:text-devan-dark">
