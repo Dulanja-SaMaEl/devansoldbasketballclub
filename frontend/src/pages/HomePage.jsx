@@ -240,12 +240,12 @@ export default function HomePage() {
               className="relative group transition-all duration-500"
             >
               {/* Basketball Pin Marker */}
-              <div className="absolute -left-[31px] sm:-left-[55px] top-0 w-8 h-8 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-gold-glow group-hover:scale-125 transition-transform">
+              <div className="absolute -left-[17px] top-0 w-8 h-8 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-gold-glow group-hover:scale-125 transition-transform z-10">
                 <span className="text-[10px] font-mono text-devan-gold font-bold">{index + 1}</span>
               </div>
 
               {/* Year Label */}
-              <div className="hidden sm:block absolute -left-48 top-0 font-display text-2xl font-extrabold text-devan-gold text-right w-36">
+              <div className="hidden sm:block absolute top-0 right-[calc(100%+24px)] font-display text-2xl font-extrabold text-devan-gold text-right whitespace-nowrap">
                 {item.year}
               </div>
 

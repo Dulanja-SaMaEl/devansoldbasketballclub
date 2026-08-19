@@ -57,16 +57,16 @@ export default function HistoryPage() {
         <LoadingSkeleton count={4} />
       ) : (
         /* Vertical Historical Timeline Stream */
-        <div className="relative border-l-2 border-devan-gold/40 ml-4 sm:ml-32 space-y-12 pl-6 sm:pl-10">
+        <div className="relative border-l-2 border-devan-gold/40 ml-4 sm:ml-36 space-y-12 pl-6 sm:pl-10">
           {filteredTimeline.map((item, index) => (
             <div key={item.id} className="relative group">
               {/* Year Marker Pin */}
-              <div className="absolute -left-[31px] sm:-left-[47px] top-0 w-6 h-6 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform">
+              <div className="absolute -left-[13px] top-0 w-6 h-6 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform z-10">
                 <div className="w-2 h-2 rounded-full bg-devan-gold" />
               </div>
 
               {/* Year Badge Positioned for Desktop */}
-              <div className="hidden sm:block absolute -left-44 top-0 font-display text-xl font-extrabold text-devan-gold text-right w-32">
+              <div className="hidden sm:block absolute top-0 right-[calc(100%+20px)] font-display text-xl font-extrabold text-devan-gold text-right whitespace-nowrap">
                 {item.year}
               </div>
 

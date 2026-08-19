@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function ScrollProgressTrack() {
+  const location = useLocation();
   const [activeChapter, setActiveChapter] = useState(0);
+
+  // Render chapters progress bar exclusively on the homepage
+  if (location.pathname !== '/') return null;
 
   const chapters = [
     { num: '01', name: 'ORIGIN' },
