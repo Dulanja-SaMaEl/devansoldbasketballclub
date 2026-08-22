@@ -21,11 +21,11 @@ INSERT INTO site_settings (
 
 -- 2. TIMELINE ENTRIES (Editable Placeholders)
 INSERT INTO timeline_entries (id, year, title, description, category, key_figures, order_index) VALUES
-('t1000000-0000-0000-0000-000000000001', 1975, 'Founding of Maliyadeva Basketball [Replace Record]', 'Initial courts established at Maliyadeva College campus. [Verified history to be added via admin panel].', 'Founding', 'Founding Pioneers', 1),
-('t1000000-0000-0000-0000-000000000002', 1985, 'First Major Championship Era [Replace Record]', 'The early decade marked by regional tournament appearances and team growth. [Verified details to be added].', 'Championship', 'Team Captain & Squad', 2),
-('t1000000-0000-0000-0000-000000000003', 1998, 'All-Island Title Milestone [Replace Record]', 'A landmark championship victory bringing honor to Maliyadeva College. [Verified details to be added].', 'Title', 'All-Island Squad', 3),
-('t1000000-0000-0000-0000-000000000004', 2010, 'Golden Jubilee Era [Replace Record]', 'Expansion of the basketball program with modernized court facilities and alumni support.', 'Expansion', 'Alumni Council', 4),
-('t1000000-0000-0000-0000-000000000005', 2023, 'Modern Brotherhood & Digital Archive [Replace Record]', 'Official launch of Old Devans Basketball Club digital archive to unite generations.', 'Legacy', 'Devans Alumni', 5)
+('10000000-0000-0000-0000-000000000001', 1975, 'Founding of Maliyadeva Basketball [Replace Record]', 'Initial courts established at Maliyadeva College campus. [Verified history to be added via admin panel].', 'Founding', 'Founding Pioneers', 1),
+('10000000-0000-0000-0000-000000000002', 1985, 'First Major Championship Era [Replace Record]', 'The early decade marked by regional tournament appearances and team growth. [Verified details to be added].', 'Championship', 'Team Captain & Squad', 2),
+('10000000-0000-0000-0000-000000000003', 1998, 'All-Island Title Milestone [Replace Record]', 'A landmark championship victory bringing honor to Maliyadeva College. [Verified details to be added].', 'Title', 'All-Island Squad', 3),
+('10000000-0000-0000-0000-000000000004', 2010, 'Golden Jubilee Era [Replace Record]', 'Expansion of the basketball program with modernized court facilities and alumni support.', 'Expansion', 'Alumni Council', 4),
+('10000000-0000-0000-0000-000000000005', 2023, 'Modern Brotherhood & Digital Archive [Replace Record]', 'Official launch of Old Devans Basketball Club digital archive to unite generations.', 'Legacy', 'Devans Alumni', 5)
 ON CONFLICT (id) DO NOTHING;
 
 -- 3. GENERATIONS
@@ -52,25 +52,25 @@ ON CONFLICT (id) DO NOTHING;
 
 -- 6. GALLERY IMAGES (Editable Placeholders)
 INSERT INTO gallery_images (id, title, caption, image_url, year, category, is_featured) VALUES
-('ga100000-0000-0000-0000-000000000001', '1998 Championship Team Photo [Replace Record]', 'The 1998 All-Island winning squad celebrating on home court.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', 1998, 'Teams', TRUE),
-('ga100000-0000-0000-0000-000000000002', 'Historic Court Action [Replace Record]', 'Fierce competition during inter-school finals.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', 2004, 'Matches', TRUE),
-('ga100000-0000-0000-0000-000000000003', 'Trophy Presentation [Replace Record]', 'Captains lifting the championship shield.', 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80', 2012, 'Trophies', TRUE),
-('ga100000-0000-0000-0000-000000000004', 'Alumni Reunion Gathering [Replace Record]', 'Generations of Devans basketball players reuniting at Maliyadeva College.', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80', 2022, 'Reunions', FALSE)
+('fa100000-0000-0000-0000-000000000001', '1998 Championship Team Photo [Replace Record]', 'The 1998 All-Island winning squad celebrating on home court.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', 1998, 'Teams', TRUE),
+('fa100000-0000-0000-0000-000000000002', 'Historic Court Action [Replace Record]', 'Fierce competition during inter-school finals.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', 2004, 'Matches', TRUE),
+('fa100000-0000-0000-0000-000000000003', 'Trophy Presentation [Replace Record]', 'Captains lifting the championship shield.', 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80', 2012, 'Trophies', TRUE),
+('fa100000-0000-0000-0000-000000000004', 'Alumni Reunion Gathering [Replace Record]', 'Generations of Devans basketball players reuniting at Maliyadeva College.', 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80', 2022, 'Reunions', FALSE)
 ON CONFLICT (id) DO NOTHING;
 
 -- 7. STORIES & MEMORIES (Editable Placeholders)
 INSERT INTO stories (id, title, author, generation_name, story, date, status) VALUES
-('st100000-0000-0000-0000-000000000001', 'The Final Quarter of 1998 [Replace Record]', 'Sample Old Boy Author [Replace]', '1990s Champions', 'Down by 4 points with 30 seconds on the clock, our captain called a time-out. What followed was unforgettable. [Verified memory to be added via submission or admin].', '2023-10-15', 'Approved'),
-('st100000-0000-0000-0000-000000000002', 'Brotherhood Beyond the Court [Replace Record]', 'Sample Alumni Member [Replace]', '2000s Renaissance', 'Maliyadeva basketball taught us resilience, respect for our seniors, and a bond that lasts a lifetime.', '2024-02-20', 'Approved')
+('ba100000-0000-0000-0000-000000000001', 'The Final Quarter of 1998 [Replace Record]', 'Sample Old Boy Author [Replace]', '1990s Champions', 'Down by 4 points with 30 seconds on the clock, our captain called a time-out. What followed was unforgettable. [Verified memory to be added via submission or admin].', '2023-10-15', 'Approved'),
+('ba100000-0000-0000-0000-000000000002', 'Brotherhood Beyond the Court [Replace Record]', 'Sample Alumni Member [Replace]', '2000s Renaissance', 'Maliyadeva basketball taught us resilience, respect for our seniors, and a bond that lasts a lifetime.', '2024-02-20', 'Approved')
 ON CONFLICT (id) DO NOTHING;
 
 -- 8. NEWS ARTICLES (Editable Placeholders)
 INSERT INTO news_articles (id, title, slug, excerpt, content, cover_image_url, published_date, status) VALUES
-('ne100000-0000-0000-0000-000000000001', 'Launch of Old Devans Basketball Club Digital Archive', 'launch-of-digital-archive', 'Connecting past legends with the future generation of Maliyadeva basketball.', 'We are proud to unveil the living digital museum of Devans Basketball. This platform preserves our history, championship trophies, legend profiles, and photo gallery for old boys and supporters worldwide.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', '2026-08-01', 'Published'),
-('ne100000-0000-0000-0000-000000000002', 'Annual Devans Alumni Tournament Announced', 'annual-devans-alumni-tournament', 'Get ready for the annual gathering of generations at the college basketball courts.', 'Details regarding registration, schedule, and team brackets for the upcoming Devans Alumni Basketball Tournament.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', '2026-08-10', 'Published')
+('ea100000-0000-0000-0000-000000000001', 'Launch of Old Devans Basketball Club Digital Archive', 'launch-of-digital-archive', 'Connecting past legends with the future generation of Maliyadeva basketball.', 'We are proud to unveil the living digital museum of Devans Basketball. This platform preserves our history, championship trophies, legend profiles, and photo gallery for old boys and supporters worldwide.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', '2026-08-01', 'Published'),
+('ea100000-0000-0000-0000-000000000002', 'Annual Devans Alumni Tournament Announced', 'annual-devans-alumni-tournament', 'Get ready for the annual gathering of generations at the college basketball courts.', 'Details regarding registration, schedule, and team brackets for the upcoming Devans Alumni Basketball Tournament.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', '2026-08-10', 'Published')
 ON CONFLICT (id) DO NOTHING;
 
 -- 9. EVENTS (Editable Placeholders)
 INSERT INTO events (id, title, description, date, time, location, status) VALUES
-('ev100000-0000-0000-0000-000000000001', 'Devans Basketball Alumni Reunion & Match 2026', 'Annual gathering of former Maliyadeva basketball players across all generations featuring friendly games, dinner, and archive exhibition.', '2026-11-20', '03:00 PM', 'Maliyadeva College Basketball Court, Kurunegala', 'Upcoming')
+('ee100000-0000-0000-0000-000000000001', 'Devans Basketball Alumni Reunion & Match 2026', 'Annual gathering of former Maliyadeva basketball players across all generations featuring friendly games, dinner, and archive exhibition.', '2026-11-20', '03:00 PM', 'Maliyadeva College Basketball Court, Kurunegala', 'Upcoming')
 ON CONFLICT (id) DO NOTHING;
