@@ -4,9 +4,9 @@ import { Save, CheckCircle } from 'lucide-react';
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
-    club_name: 'Devans Old Basketball Club',
+    club_name: 'Old Devans Basketball Club',
     short_name: 'Devans Basketball',
-    hero_title: 'DEVANS OLD BASKETBALL CLUB',
+    hero_title: 'OLD DEVANS BASKETBALL CLUB',
     hero_subtitle: 'The Living Digital Legacy of Basketball at Maliyadeva College',
     description: '',
     email: '',

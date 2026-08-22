@@ -29,7 +29,7 @@ export default function LegendsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-12">
       <SeoHead
         title="Devans Basketball Legends & Players | Maliyadeva Hall of Fame"
-        description="Profiles, achievements, and player history of legendary captains, coaches, and court leaders of Devans Old Basketball Club at Maliyadeva College."
+        description="Profiles, achievements, and player history of legendary captains, coaches, and court leaders of Old Devans Basketball Club at Maliyadeva College."
         canonicalPath="/legends"
         jsonLd={getBreadcrumbSchema([{ name: 'Legends', path: '/legends' }])}
       />

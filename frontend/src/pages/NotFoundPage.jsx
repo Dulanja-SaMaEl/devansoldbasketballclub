@@ -7,8 +7,8 @@ export default function NotFoundPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-20 text-center space-y-10">
       <SeoHead 
-        title="Page Not Found | Devans Old Basketball Club"
-        description="The requested page could not be found on the Devans Old Basketball Club digital legacy website."
+        title="Page Not Found | Old Devans Basketball Club"
+        description="The requested page could not be found on the Old Devans Basketball Club digital legacy website."
         noindex={true}
       />
 
@@ -61,7 +61,7 @@ export default function NotFoundPage() {
       <div>
         <Link to="/" className="inline-flex items-center space-x-2 text-xs font-bold text-devan-gold hover:underline">
           <ArrowLeft className="w-4 h-4" />
-          <span>Return to Devans Old Basketball Club Home</span>
+          <span>Return to Old Devans Basketball Club Home</span>
         </Link>
       </div>
     </div>

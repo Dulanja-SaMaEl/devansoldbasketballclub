@@ -23,7 +23,7 @@ export default function NewsPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
       <SeoHead
         title="Devans Basketball News & Articles | Maliyadeva Editorial Bulletin"
-        description="Official news, tournament results, club announcements, and editorial articles from Devans Old Basketball Club at Maliyadeva College."
+        description="Official news, tournament results, club announcements, and editorial articles from Old Devans Basketball Club at Maliyadeva College."
         canonicalPath="/news"
         jsonLd={getBreadcrumbSchema([{ name: 'News & Articles', path: '/news' }])}
       />

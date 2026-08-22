@@ -5,11 +5,11 @@ const crypto = require('crypto');
 let memoryStore = {
   site_settings: {
     id: '00000000-0000-0000-0000-000000000001',
-    club_name: 'Devans Old Basketball Club',
+    club_name: 'Old Devans Basketball Club',
     short_name: 'Devans Basketball',
     logo_url: '',
     hero_image_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1920&q=80',
-    hero_title: 'DEVANS OLD BASKETBALL CLUB',
+    hero_title: 'OLD DEVANS BASKETBALL CLUB',
     hero_subtitle: 'The Living Digital Legacy of Basketball at Maliyadeva College, Kurunegala',
     description: 'Preserving the heritage, victories, brotherhood, and memories across generations of Maliyadeva basketball.',
     email: 'contact@devansbasketball.lk',
@@ -17,15 +17,15 @@ let memoryStore = {
     address: 'Maliyadeva College, Kurunegala, Sri Lanka',
     social_links: { facebook: 'https://facebook.com', instagram: 'https://instagram.com', youtube: 'https://youtube.com' },
     footer_text: 'The Game Changes. The Legacy Remains.',
-    seo_title: 'Devans Old Basketball Club — Heritage & History',
-    seo_description: 'Official living archive of Devans Old Basketball Club, Maliyadeva College.'
+    seo_title: 'Old Devans Basketball Club — Heritage & History',
+    seo_description: 'Official living archive of Old Devans Basketball Club, Maliyadeva College.'
   },
   timeline_entries: [
     { id: '1', year: 1975, title: 'Founding of Maliyadeva Basketball Court', description: 'Initial basketball courts established on Maliyadeva College grounds under college athletic council.', category: 'Founding', key_figures: 'Founding Teachers & Pioneers', order_index: 1 },
     { id: '2', year: 1985, title: 'First Championship Era', description: 'Early decade of regional tournament victory and establishing the Devans fast-break court style.', category: 'Championship', key_figures: '1985 Senior Squad', order_index: 2 },
     { id: '3', year: 1998, title: 'All-Island Title Triumph', description: 'Historic national victory crowning Maliyadeva Basketball at the top tier of Sri Lanka school sports.', category: 'Title', key_figures: '1998 First V Squad', order_index: 3 },
     { id: '4', year: 2010, title: 'Floodlit Court Expansion & Alumni League', description: 'Upgraded floodlit facilities and formal establishment of the Devans Old Basketball Council.', category: 'Expansion', key_figures: 'Alumni Council', order_index: 4 },
-    { id: '5', year: 2023, title: 'Digital Legacy & Museum Platform', description: 'Unveiling the official Devans Old Basketball Club web archive uniting generations worldwide.', category: 'Legacy', key_figures: 'Devans Alumni Association', order_index: 5 }
+    { id: '5', year: 2023, title: 'Digital Legacy & Museum Platform', description: 'Unveiling the official Old Devans Basketball Club web archive uniting generations worldwide.', category: 'Legacy', key_figures: 'Devans Alumni Association', order_index: 5 }
   ],
   generations: [
     { id: 'gen-1980s', name: '1980s Pioneers', start_year: 1980, end_year: 1989, description: 'The founding generation who built the grit, endurance, and groundwork for Maliyadeva basketball.', team_photo_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', order_index: 1 },

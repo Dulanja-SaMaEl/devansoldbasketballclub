@@ -56,7 +56,7 @@ export default function StoryDetailPage() {
     <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-10">
       <SeoHead
         title={`${story.title} | Devans Basketball Alumni Stories`}
-        description={`"${story.title}" written by ${story.author} (${story.generation_name || 'Maliyadeva Alumnus'}). Read firsthand memories from Devans Old Basketball Club history.`}
+        description={`"${story.title}" written by ${story.author} (${story.generation_name || 'Maliyadeva Alumnus'}). Read firsthand memories from Old Devans Basketball Club history.`}
         canonicalPath={`/stories/${slugify(story.title)}`}
         ogImage={story.image_url}
         jsonLd={getBreadcrumbSchema(breadcrumbs)}

@@ -21,7 +21,7 @@ export default function Footer({ settings }) {
               </div>
               <div>
                 <h3 className="font-display tracking-widest text-lg font-bold text-devan-paper">
-                  DEVANS OLD BASKETBALL CLUB
+                  OLD DEVANS BASKETBALL CLUB
                 </h3>
                 <p className="text-xs text-devan-gold font-serif uppercase tracking-widest">
                   Maliyadeva College • Kurunegala, Sri Lanka
@@ -77,7 +77,7 @@ export default function Footer({ settings }) {
 
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 font-serif">
-          <p>© {currentYear} Devans Old Basketball Club. All rights reserved.</p>
+          <p>© {currentYear} Old Devans Basketball Club. All rights reserved.</p>
           <p className="mt-2 sm:mt-0 flex items-center space-x-1">
             <span>Honoring Maliyadeva College Basketball Heritage</span>
           </p>

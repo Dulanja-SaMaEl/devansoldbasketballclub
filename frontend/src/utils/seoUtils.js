@@ -1,5 +1,5 @@
 /**
- * SEO Utilities and Schema Generators for Devans Old Basketball Club
+ * SEO Utilities and Schema Generators for Old Devans Basketball Club
  */
 
 export const BASE_SITE_URL = 'https://olddevansbasketball.com';
@@ -35,8 +35,8 @@ export const getCanonicalUrl = (path = '') => {
 export const getOrganizationSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'SportsTeam',
-  'name': 'Devans Old Basketball Club',
-  'alternateName': ['Devans Basketball', 'Devans Old Boys Basketball Association', 'Maliyadeva College Basketball'],
+  'name': 'Old Devans Basketball Club',
+  'alternateName': ['Devans Basketball', 'Old Devans Basketball Association', 'Maliyadeva College Basketball'],
   'url': BASE_SITE_URL,
   'logo': `${BASE_SITE_URL}/favicon.svg`,
   'description': 'The living digital archive and alumni community of basketball at Maliyadeva College, Kurunegala, Sri Lanka.',
@@ -71,7 +71,7 @@ export const getOrganizationSchema = () => ({
 export const getWebSiteSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  'name': 'Devans Old Basketball Club',
+  'name': 'Old Devans Basketball Club',
   'alternateName': 'Devans Basketball Legacy',
   'url': BASE_SITE_URL,
   'potentialAction': {
@@ -126,7 +126,7 @@ export const getArticleSchema = (article) => {
     }],
     'publisher': {
       '@type': 'Organization',
-      'name': 'Devans Old Basketball Club',
+      'name': 'Old Devans Basketball Club',
       'logo': {
         '@type': 'ImageObject',
         'url': `${BASE_SITE_URL}/favicon.svg`
@@ -154,7 +154,7 @@ export const getPersonSchema = (legend) => {
     'image': legend.profile_image_url || DEFAULT_OG_IMAGE,
     'affiliation': {
       '@type': 'SportsTeam',
-      'name': 'Devans Old Basketball Club (Maliyadeva College)'
+      'name': 'Old Devans Basketball Club (Maliyadeva College)'
     }
   };
 };
@@ -182,7 +182,7 @@ export const getEventSchema = (event) => {
     'image': [event.cover_image_url || DEFAULT_OG_IMAGE],
     'organizer': {
       '@type': 'Organization',
-      'name': 'Devans Old Basketball Club',
+      'name': 'Old Devans Basketball Club',
       'url': BASE_SITE_URL
     }
   };

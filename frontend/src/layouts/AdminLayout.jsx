@@ -65,7 +65,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-200 flex flex-col md:flex-row">
-      <SeoHead title="Admin Management Portal | Devans Old Basketball Club" noindex={true} />
+      <SeoHead title="Admin Management Portal | Old Devans Basketball Club" noindex={true} />
       {/* Sidebar Navigation */}
       <aside className="w-full md:w-64 bg-devan-dark-card border-b md:border-b-0 md:border-r border-stone-800 flex flex-col justify-between shrink-0">
         <div>

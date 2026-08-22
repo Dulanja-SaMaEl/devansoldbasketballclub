@@ -1,7 +1,7 @@
-# Devans Old Basketball Club — Digital Legacy Platform
+# Old Devans Basketball Club — Digital Legacy Platform
 > **Maliyadeva College, Kurunegala, Sri Lanka**
 
-A living digital legacy, historical archive, and alumni hub for Devans Old Basketball Club. Built with React 18, Vite, Tailwind CSS, Framer Motion, Express.js REST API, and Supabase PostgreSQL.
+A living digital legacy, historical archive, and alumni hub for Old Devans Basketball Club. Built with React 18, Vite, Tailwind CSS, Framer Motion, Express.js REST API, and Supabase PostgreSQL.
 
 ---
 

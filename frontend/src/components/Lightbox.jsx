@@ -67,7 +67,7 @@ export default function Lightbox({ image, onClose }) {
           </div>
 
           <div className="pt-6 border-t border-stone-800 text-[10px] text-stone-500 uppercase tracking-widest font-serif">
-            Devans Old Basketball Club Archives
+            Old Devans Basketball Club Archives
           </div>
         </div>
       </div>

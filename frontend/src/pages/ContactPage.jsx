@@ -35,8 +35,8 @@ export default function ContactPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
       <SeoHead
-        title="Contact Devans Old Basketball Club | Maliyadeva College, Kurunegala"
-        description="Get in touch with Devans Old Basketball Club committee, alumni relations, and basketball program coordinators at Maliyadeva College in Kurunegala, Sri Lanka."
+        title="Contact Old Devans Basketball Club | Maliyadeva College, Kurunegala"
+        description="Get in touch with Old Devans Basketball Club committee, alumni relations, and basketball program coordinators at Maliyadeva College in Kurunegala, Sri Lanka."
         canonicalPath="/contact"
         jsonLd={getBreadcrumbSchema([{ name: 'Contact Us', path: '/contact' }])}
       />

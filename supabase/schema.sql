@@ -1,5 +1,5 @@
 -- ==========================================
--- DEVANS OLD BASKETBALL CLUB - SUPABASE SCHEMA
+-- OLD DEVANS BASKETBALL CLUB - SUPABASE SCHEMA
 -- Maliyadeva College, Kurunegala, Sri Lanka
 -- ==========================================
 
@@ -9,11 +9,11 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- 1. SITE SETTINGS
 CREATE TABLE IF NOT EXISTS site_settings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    club_name TEXT NOT NULL DEFAULT 'Devans Old Basketball Club',
+    club_name TEXT NOT NULL DEFAULT 'Old Devans Basketball Club',
     short_name TEXT NOT NULL DEFAULT 'Devans Basketball',
     logo_url TEXT,
     hero_image_url TEXT,
-    hero_title TEXT DEFAULT 'DEVANS OLD BASKETBALL CLUB',
+    hero_title TEXT DEFAULT 'OLD DEVANS BASKETBALL CLUB',
     hero_subtitle TEXT DEFAULT 'The Living Digital Legacy of Basketball at Maliyadeva College, Kurunegala',
     description TEXT DEFAULT 'Preserving the heritage, victories, brotherhood, and memories across generations of Maliyadeva basketball.',
     email TEXT DEFAULT 'contact@devansbasketball.lk',
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS site_settings (
     address TEXT DEFAULT 'Maliyadeva College, Kurunegala, Sri Lanka',
     social_links JSONB DEFAULT '{"facebook": "", "instagram": "", "youtube": ""}'::jsonb,
     footer_text TEXT DEFAULT 'The Game Changes. The Legacy Remains.',
-    seo_title TEXT DEFAULT 'Devans Old Basketball Club — Heritage & History',
-    seo_description TEXT DEFAULT 'Official living archive of Devans Old Basketball Club, Maliyadeva College.',
+    seo_title TEXT DEFAULT 'Old Devans Basketball Club — Heritage & History',
+    seo_description TEXT DEFAULT 'Official living archive of Old Devans Basketball Club, Maliyadeva College.',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

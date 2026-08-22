@@ -1,4 +1,4 @@
-# Devans Old Basketball Club — Robots.txt
+# Old Devans Basketball Club — Robots.txt
 User-agent: *
 Allow: /
 Allow: /about

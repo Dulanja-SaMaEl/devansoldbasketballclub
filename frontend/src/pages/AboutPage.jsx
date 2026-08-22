@@ -10,8 +10,8 @@ export default function AboutPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-16">
       <SeoHead
-        title="Maliyadeva Basketball Legacy & Culture | Devans Old Basketball Club"
-        description="Learn about the origin, mission, values, and unbroken community bond of Devans Old Basketball Club at Maliyadeva College in Kurunegala, Sri Lanka."
+        title="Maliyadeva Basketball Legacy & Culture | Old Devans Basketball Club"
+        description="Learn about the origin, mission, values, and unbroken community bond of Old Devans Basketball Club at Maliyadeva College in Kurunegala, Sri Lanka."
         canonicalPath="/about"
         jsonLd={getBreadcrumbSchema([{ name: 'About', path: '/about' }])}
       />
@@ -37,7 +37,7 @@ export default function AboutPage() {
             Maliyadeva College, located in Kurunegala, Sri Lanka, has long stood as a beacon of academic and sporting excellence. Basketball has held a distinguished place in the college culture since its founding eras.
           </p>
           <p>
-            The Devans Old Basketball Club was established to preserve this rich heritage, maintain tight-knit alumni connections, and support the upcoming generation of student-athletes carrying the college crest.
+            The Old Devans Basketball Club was established to preserve this rich heritage, maintain tight-knit alumni connections, and support the upcoming generation of student-athletes carrying the college crest.
           </p>
         </div>
 

@@ -21,8 +21,8 @@ export default function EventsPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
       <SeoHead
-        title="Devans Old Basketball Club Events & Reunions | Maliyadeva College"
-        description="Upcoming and past alumni reunions, tournaments, coaching clinics, and celebrations organized by Devans Old Basketball Club in Kurunegala."
+        title="Old Devans Basketball Club Events & Reunions | Maliyadeva College"
+        description="Upcoming and past alumni reunions, tournaments, coaching clinics, and celebrations organized by Old Devans Basketball Club in Kurunegala."
         canonicalPath="/events"
         jsonLd={getBreadcrumbSchema([{ name: 'Events & Reunions', path: '/events' }])}
       />

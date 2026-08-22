@@ -31,8 +31,8 @@ const getCandidateTables = (endpoint) => {
 // Fallback archival datasets when backend is unreachable or static-hosted
 const MOCK_DATA = {
   settings: {
-    site_name: 'Devans Old Basketball Club',
-    hero_title: 'DEVANS OLD BASKETBALL CLUB',
+    site_name: 'Old Devans Basketball Club',
+    hero_title: 'OLD DEVANS BASKETBALL CLUB',
     hero_subtitle: 'The Living Digital Legacy of Basketball at Maliyadeva College',
     hero_image_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1920&q=80',
     address: 'Maliyadeva College, Kurunegala, Sri Lanka',
@@ -59,7 +59,7 @@ const MOCK_DATA = {
     { id: 'tm-2', year: 1994, title: 'First National Championship Victory', category: 'Championship', description: 'Maliyadeva Basketball won the prestigious All-Island championship title.' },
     { id: 'tm-3', year: 2008, title: 'Unbeaten Provincial Campaign', category: 'Milestone', description: 'Completed a 14-game unbeaten streak across the Wayamba Province championship.' },
     { id: 'tm-4', year: 2018, title: 'Court Lighting Modernization', category: 'Infrastructure', description: 'Installation of modern floodlight systems for evening practice sessions and tournaments.' },
-    { id: 'tm-5', year: 2024, title: 'Digital Legacy Archive Launch', category: 'Digital Era', description: 'Establishment of Devans Old Basketball Club interactive historical archive.' }
+    { id: 'tm-5', year: 2024, title: 'Digital Legacy Archive Launch', category: 'Digital Era', description: 'Establishment of Old Devans Basketball Club interactive historical archive.' }
   ],
   gallery: [
     { id: 'gal-1', title: '1994 Victory Celebration', year: 1994, image_url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80' },

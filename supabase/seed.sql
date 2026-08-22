@@ -1,5 +1,5 @@
 -- ==========================================
--- DEVANS OLD BASKETBALL CLUB - SUPABASE SEED DATA
+-- OLD DEVANS BASKETBALL CLUB - SUPABASE SEED DATA
 -- Editable placeholder records adhering to rule 30
 -- ==========================================
 
@@ -8,9 +8,9 @@ INSERT INTO site_settings (
     id, club_name, short_name, hero_title, hero_subtitle, description, email, phone, address, footer_text
 ) VALUES (
     '00000000-0000-0000-0000-000000000001',
-    'Devans Old Basketball Club',
+    'Old Devans Basketball Club',
     'Devans Basketball',
-    'DEVANS OLD BASKETBALL CLUB',
+    'OLD DEVANS BASKETBALL CLUB',
     'The Living Digital Legacy of Basketball at Maliyadeva College, Kurunegala',
     'Honoring the history, victories, brotherhood, and memories across generations of Maliyadeva basketball players.',
     'contact@devansbasketball.lk',
@@ -25,7 +25,7 @@ INSERT INTO timeline_entries (year, title, description, category, key_figures, o
 (1985, 'First Major Championship Era [Replace Record]', 'The early decade marked by regional tournament appearances and team growth. [Verified details to be added].', 'Championship', 'Team Captain & Squad', 2),
 (1998, 'All-Island Title Milestone [Replace Record]', 'A landmark championship victory bringing honor to Maliyadeva College. [Verified details to be added].', 'Title', 'All-Island Squad', 3),
 (2010, 'Golden Jubilee Era [Replace Record]', 'Expansion of the basketball program with modernized court facilities and alumni support.', 'Expansion', 'Alumni Council', 4),
-(2023, 'Modern Brotherhood & Digital Archive [Replace Record]', 'Official launch of Devans Old Basketball Club digital archive to unite generations.', 'Legacy', 'Devans Alumni', 5);
+(2023, 'Modern Brotherhood & Digital Archive [Replace Record]', 'Official launch of Old Devans Basketball Club digital archive to unite generations.', 'Legacy', 'Devans Alumni', 5);
 
 -- 3. GENERATIONS
 INSERT INTO generations (id, name, start_year, end_year, description, order_index) VALUES
@@ -60,7 +60,7 @@ INSERT INTO stories (title, author, generation_name, story, date, status) VALUES
 
 -- 8. NEWS ARTICLES (Editable Placeholders)
 INSERT INTO news_articles (title, slug, excerpt, content, cover_image_url, published_date, status) VALUES
-('Launch of Devans Old Basketball Club Digital Archive', 'launch-of-digital-archive', 'Connecting past legends with the future generation of Maliyadeva basketball.', 'We are proud to unveil the living digital museum of Devans Basketball. This platform preserves our history, championship trophies, legend profiles, and photo gallery for old boys and supporters worldwide.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', '2026-08-01', 'Published'),
+('Launch of Old Devans Basketball Club Digital Archive', 'launch-of-digital-archive', 'Connecting past legends with the future generation of Maliyadeva basketball.', 'We are proud to unveil the living digital museum of Devans Basketball. This platform preserves our history, championship trophies, legend profiles, and photo gallery for old boys and supporters worldwide.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', '2026-08-01', 'Published'),
 ('Annual Devans Alumni Tournament Announced', 'annual-devans-alumni-tournament', 'Get ready for the annual gathering of generations at the college basketball courts.', 'Details regarding registration, schedule, and team brackets for the upcoming Devans Alumni Basketball Tournament.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', '2026-08-10', 'Published');
 
 -- 9. EVENTS (Editable Placeholders)

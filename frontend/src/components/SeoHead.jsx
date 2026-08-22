@@ -6,8 +6,8 @@ import { BASE_SITE_URL, DEFAULT_OG_IMAGE, getCanonicalUrl } from '../utils/seoUt
  * Updates DOM title, meta tags, canonical link, Open Graph, Twitter cards, and JSON-LD structured data.
  */
 export default function SeoHead({
-  title = 'Devans Old Basketball Club | Maliyadeva College, Kurunegala',
-  description = 'Official living archive of Devans Old Basketball Club at Maliyadeva College, Kurunegala, Sri Lanka. Explore team history, championships, legends, photos, stories, and generations.',
+  title = 'Old Devans Basketball Club | Maliyadeva College, Kurunegala',
+  description = 'Official living archive of Old Devans Basketball Club at Maliyadeva College, Kurunegala, Sri Lanka. Explore team history, championships, legends, photos, stories, and generations.',
   canonicalPath = '',
   ogImage = DEFAULT_OG_IMAGE,
   ogType = 'website',
@@ -18,7 +18,7 @@ export default function SeoHead({
     // 1. Update Document Title
     const fullTitle = title.includes('Devans') 
       ? title 
-      : `${title} | Devans Old Basketball Club`;
+      : `${title} | Old Devans Basketball Club`;
     document.title = fullTitle;
 
     // Helper to update or create meta tag
@@ -57,7 +57,7 @@ export default function SeoHead({
     updateLinkTag('canonical', canonicalUrl);
 
     // 4. Open Graph Meta Tags
-    updateMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Devans Old Basketball Club');
+    updateMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Old Devans Basketball Club');
     updateMetaTag('meta[property="og:title"]', 'property', 'og:title', fullTitle);
     updateMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
     updateMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);

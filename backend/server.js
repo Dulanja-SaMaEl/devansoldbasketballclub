@@ -38,7 +38,7 @@ app.use('/api', apiRoutes);
 app.get('/health', (req, res) => {
   res.json({
     status: 'online',
-    app: 'Devans Old Basketball Club Digital Legacy API',
+    app: 'Old Devans Basketball Club Digital Legacy API',
     timestamp: new Date().toISOString()
   });
 });
@@ -55,7 +55,7 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`
   ======================================================
-  🏆 DEVANS OLD BASKETBALL CLUB API SERVER ONLINE 🏆
+  🏆 OLD DEVANS BASKETBALL CLUB API SERVER ONLINE 🏆
   ======================================================
   📍 Server running on: http://localhost:${PORT}
   🏀 Health Check:     http://localhost:${PORT}/health
