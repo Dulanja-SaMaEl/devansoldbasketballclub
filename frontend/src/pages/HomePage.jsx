@@ -138,8 +138,8 @@ export default function HomePage() {
   return (
     <div className="pb-32 relative bg-devan-dark selection:bg-devan-gold selection:text-devan-dark overflow-x-hidden">
       <SeoHead
-        title="Devans Old Basketball Club | Maliyadeva College, Kurunegala"
-        description="Official living digital archive of Devans Old Basketball Club at Maliyadeva College, Kurunegala, Sri Lanka. Preserving victories, legends, photos, stories, and generations."
+        title="Old Devans Basketball Club | Maliyadeva College, Kurunegala"
+        description="Official living digital archive of Old Devans Basketball Club at Maliyadeva College, Kurunegala, Sri Lanka. Preserving victories, legends, photos, stories, and generations."
         canonicalPath="/"
         jsonLd={[getOrganizationSchema(), getWebSiteSchema()]}
       />
@@ -162,7 +162,7 @@ export default function HomePage() {
           SECTION 1 — HERO MOTION SYSTEM (EDITORIAL PARALLAX)
          ═══════════════════════════════════════════════════════ */}
       <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center bg-devan-dark overflow-hidden border-b border-devan-gold/20 pt-10 pb-16">
-        
+
         {/* Background Image & Texture Layer */}
         <div className="absolute inset-0 z-0">
           <img
@@ -214,7 +214,7 @@ export default function HomePage() {
 
         {/* Main Editorial Hero Composition */}
         <div className="relative z-20 max-w-6xl mx-auto px-4 text-center flex flex-col items-center space-y-6">
-          
+
           <div className="inline-flex items-center space-x-3 bg-devan-maroon/80 border border-devan-gold/70 px-5 py-2 rounded-full text-devan-gold shadow-gold-glow backdrop-blur-md">
             <Shield className="w-4 h-4 text-devan-gold animate-pulse" />
             <span className="text-xs tracking-widest font-display font-bold uppercase">Maliyadeva College • Kurunegala</span>
@@ -222,7 +222,7 @@ export default function HomePage() {
 
           {/* Giant Typography Dynamic Heading Layer */}
           <div className="relative w-full flex flex-col items-center justify-center my-4">
-            
+
             {/* Background Giant Text Stroke */}
             <span className="font-display font-black text-giant text-stroke-gold uppercase select-none opacity-20 pointer-events-none absolute -top-12">
               {getDynamicTitle()}
@@ -230,7 +230,7 @@ export default function HomePage() {
 
             {/* Main Foreground Typography */}
             <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-devan-paper uppercase leading-none drop-shadow-2xl z-10 max-w-4xl">
-              {settings?.hero_title || 'DEVANS OLD BASKETBALL CLUB'}
+              {settings?.hero_title || 'OLD DEVANS BASKETBALL CLUB'}
             </h1>
 
             <p className="font-serif text-base sm:text-xl text-devan-gold italic max-w-2xl mt-4 z-10">
@@ -283,7 +283,7 @@ export default function HomePage() {
               <div className="absolute -left-[14px] top-1.5 w-7 h-7 rounded-full bg-devan-maroon border-2 border-devan-gold flex items-center justify-center shadow-gold-glow group-hover:scale-125 transition-transform z-10">
                 <div className="w-2.5 h-2.5 rounded-full bg-devan-gold" />
               </div>
-              
+
               {/* Year Stamp */}
               <div className="hidden sm:block absolute top-1 right-[calc(100%+24px)] font-display text-2xl font-black text-devan-gold text-right whitespace-nowrap">
                 {item.year}
@@ -316,7 +316,7 @@ export default function HomePage() {
       <section ref={magicMomentRef} className="py-16 bg-gradient-to-b from-devan-dark via-devan-maroon/20 to-devan-dark border-y border-devan-gold/20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12 text-center">
           <span className="archive-stamp text-[10px] text-devan-gold">CHAPTER 02 • THE LEGENDS BREAKTHROUGH</span>
-          
+
           {/* Giant Break-Apart Spelled Out Word */}
           <div className="flex justify-center items-center space-x-2 sm:space-x-6 select-none my-6">
             {['D', 'E', 'V', 'A', 'N', 'S'].map((char, i) => (
@@ -486,9 +486,8 @@ export default function HomePage() {
             <div
               key={img.id || index}
               onClick={() => setSelectedImage(img)}
-              className={`group cursor-pointer bg-devan-dark-card border border-stone-800 rounded-2xl overflow-hidden shadow-archival hover:border-devan-gold transition-all duration-500 ${
-                index % 3 === 1 ? 'md:-translate-y-4' : index % 3 === 2 ? 'md:translate-y-4' : ''
-              }`}
+              className={`group cursor-pointer bg-devan-dark-card border border-stone-800 rounded-2xl overflow-hidden shadow-archival hover:border-devan-gold transition-all duration-500 ${index % 3 === 1 ? 'md:-translate-y-4' : index % 3 === 2 ? 'md:translate-y-4' : ''
+                }`}
             >
               <div className="h-72 overflow-hidden relative">
                 <img
