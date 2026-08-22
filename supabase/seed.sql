@@ -68,7 +68,7 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO news_articles (id, title, slug, excerpt, content, cover_image_url, published_date, status) VALUES
 ('ea100000-0000-0000-0000-000000000001', 'Launch of Old Devans Basketball Club Digital Archive', 'launch-of-digital-archive', 'Connecting past legends with the future generation of Maliyadeva basketball.', 'We are proud to unveil the living digital museum of Devans Basketball. This platform preserves our history, championship trophies, legend profiles, and photo gallery for old boys and supporters worldwide.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80', '2026-08-01', 'Published'),
 ('ea100000-0000-0000-0000-000000000002', 'Annual Devans Alumni Tournament Announced', 'annual-devans-alumni-tournament', 'Get ready for the annual gathering of generations at the college basketball courts.', 'Details regarding registration, schedule, and team brackets for the upcoming Devans Alumni Basketball Tournament.', 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80', '2026-08-10', 'Published')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (slug) DO NOTHING;
 
 -- 9. EVENTS (Editable Placeholders)
 INSERT INTO events (id, title, description, date, time, location, status) VALUES
