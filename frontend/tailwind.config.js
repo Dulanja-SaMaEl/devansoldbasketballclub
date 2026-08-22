@@ -16,10 +16,10 @@ export default {
           paper: '#FAF7F2',
           'paper-dark': '#F0EAE1',
           'paper-border': '#E4DCD0',
-          dark: '#12100E',
-          'dark-card': '#1C1917',
-          'dark-border': '#2D2824',
-          charcoal: '#262320'
+          dark: '#080E21',
+          'dark-card': '#101B3B',
+          'dark-border': '#1B2A56',
+          charcoal: '#152247'
         }
       },
       fontFamily: {
